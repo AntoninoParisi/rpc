@@ -19,8 +19,8 @@ void openGripper(trajectory_msgs::JointTrajectory& posture)
   /* Set them as open, wide enough for the object to fit. */
   posture.points.resize(1);
   posture.points[0].positions.resize(2);
-  posture.points[0].positions[0] = 0.04;
-  posture.points[0].positions[1] = 0.04;
+  posture.points[0].positions[0] = 0.00;
+  posture.points[0].positions[1] = 0.00;
   posture.points[0].time_from_start = ros::Duration(0.5);
   // END_SUB_TUTORIAL
 }
@@ -36,8 +36,8 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   /* Set them as closed. */
   posture.points.resize(1);
   posture.points[0].positions.resize(2);
-  posture.points[0].positions[0] = 0.00;
-  posture.points[0].positions[1] = 0.00;
+  posture.points[0].positions[0] = 0.65;
+  posture.points[0].positions[1] = 0.65;
   posture.points[0].time_from_start = ros::Duration(0.5);
   // END_SUB_TUTORIAL
 }
@@ -59,10 +59,10 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // extra padding)
   grasps[0].grasp_pose.header.frame_id = "robot_base_link";
   tf2::Quaternion orientation;
-  orientation.setRPY(-M_PI / 2, -M_PI / 4, -M_PI / 2);
+  orientation.setRPY(-1.70, -M_PI / 4, -M_PI / 2);
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = 0.415;
-  grasps[0].grasp_pose.pose.position.y = 0;
+  grasps[0].grasp_pose.pose.position.y = 0.0;
   grasps[0].grasp_pose.pose.position.z = 0.5;
 
   // Setting pre-grasp approach
