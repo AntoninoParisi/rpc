@@ -25,7 +25,7 @@
   It also provides a GUI to move the simulated robot around "manually".
   This corresponds to moving around the real robot without the use of MoveIt.
   -->
-  <arg name="use_gui" default="false" />
+  <arg name="use_gui" default="true" />
   <arg name="use_rviz" default="true" />
 
   <!-- If needed, broadcast static tf for robot root -->
@@ -40,7 +40,7 @@
   </node>
 
   <!-- Given the published joint states, publish tf for the robot links -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
 
   <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
   <include file="$(find ur5e_2f_moveit)/launch/move_group.launch">

@@ -5,12 +5,12 @@ hardware_control_loop:
 # Settings for ros_control hardware interface
 ur_hardware_interface:
    joints: &robot_joints
-     - shoulder_pan_joint
-     - shoulder_lift_joint
-     - elbow_joint
-     - wrist_1_joint
-     - wrist_2_joint
-     - wrist_3_joint
+     - robot_shoulder_pan_joint
+     - robot_shoulder_lift_joint
+     - robot_elbow_joint
+     - robot_wrist_1_joint
+     - robot_wrist_2_joint
+     - robot_wrist_3_joint
 
 # Publish all joint states ----------------------------------
 joint_state_controller:

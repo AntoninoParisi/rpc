@@ -21,3 +21,11 @@ commands:
         rosrun pick_place pick_place_node
     # launch planner
         rosrun planner_rpc planner_rpc_node 
+
+
+# calibration command
+roslaunch ur_calibration calibration_correction.launch robot_ip:=127.0.0.1 target_filename:="$(rospack find ur_calibration)/etc/ex-ur5e_calibration.yaml"
+# launch ursim with calibration
+roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=127.0.0.1 kinematics_config:=$(rospack find ur_calibration)/etc/ex-ur5e_calibration.yaml
+
+

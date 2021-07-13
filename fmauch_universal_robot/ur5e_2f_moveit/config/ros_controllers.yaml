@@ -23,54 +23,20 @@ joint_state_controller:
   type: joint_state_controller/JointStateController
   publish_rate: 50
 controller_list:
-  []
-gripper_controller:
-  type: position_controllers/JointPositionController
-  joints:
-    gripper_finger_joint
-  gains:
-    gripper_finger_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-arm_controller:
-  type: position_controllers/JointPositionController
-  joints:
-    - robot_shoulder_pan_joint
-    - robot_shoulder_lift_joint
-    - robot_elbow_joint
-    - robot_wrist_1_joint
-    - robot_wrist_2_joint
-    - robot_wrist_3_joint
-  gains:
-    robot_shoulder_pan_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    robot_shoulder_lift_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    robot_elbow_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    robot_wrist_1_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    robot_wrist_2_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    robot_wrist_3_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
+  - name: arm_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      - robot_shoulder_pan_joint
+      - robot_shoulder_lift_joint
+      - robot_elbow_joint
+      - robot_wrist_1_joint
+      - robot_wrist_2_joint
+      - robot_wrist_3_joint
+  - name: gripper_controller
+    action_ns: follow_joint_trajectory
+    default: True
+    type: FollowJointTrajectory
+    joints:
+      []
