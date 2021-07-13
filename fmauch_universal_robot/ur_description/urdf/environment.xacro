@@ -9,6 +9,9 @@
         <box size='1.0 1.0 0.05'/>
       </geometry>
       <origin xyz="0 0 -0.05" rpy='0 0 0'/>
+      <material name="orange">
+          <color rgba="${255/255} ${84/255} ${1/255} 1.0"/>
+      </material>
     </visual> 
   </link>
   <link name="${prefix}conveyor_base">
@@ -16,7 +19,10 @@
       <geometry>
         <box size='1.0 5.0 0.05'/>
       </geometry>
-      <origin xyz="-1.05 0 -0.05" rpy='0 0 0'/>
+      <material name="green">
+          <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
+      </material>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
     </visual> 
   </link>
 
@@ -25,7 +31,10 @@
       <geometry>
         <box size='1.5 0.75 0.05'/>
       </geometry>
-      <origin xyz="0.25 -0.9 -0.05" rpy='0 0 0'/>
+      <material name="green">
+          <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
+      </material>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
     </visual> 
   </link>
 
@@ -34,7 +43,10 @@
       <geometry>
         <box size='4 0.05 1.5'/>
       </geometry>
-      <origin xyz="0.25 0.75 -0.05" rpy='0 0 0'/>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
+      <material name="yellow">
+          <color rgba="${222/255} ${247/255} ${1/255} 1.0"/>
+      </material>
     </visual> 
   </link>
 
@@ -43,7 +55,10 @@
       <geometry>
         <box size='0.05 1.2 1.5'/>
       </geometry>
-      <origin xyz="0.55 0.12 -0.05" rpy='0 0 0'/>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
+      <material name="yellow">
+          <color rgba="${222/255} ${247/255} ${1/255} 1.0"/>
+      </material>
     </visual> 
   </link>
 
@@ -53,32 +68,27 @@
 
 
 
-  <joint name="${prefix}table_base" type="fixed">
+  
+  <joint name="${prefix}conveyor_base_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_base"/>
-    <origin xyz="0 0 0" rpy='0 0 0'/>
-
+    <origin xyz="-1.05 0 -0.05" rpy='0 0 0'/>
   </joint>
-  <joint name="${prefix}conveyor_base" type="fixed">
+  <joint name="${prefix}conveyor_to_visual_inspection_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_to_visual_inspection"/>
-    <origin xyz="0 0 0" rpy='0 0 0'/>
+     <origin xyz="0.25 -0.9 -0.05"  rpy='0 0 0'/>
   </joint>
-  <joint name="${prefix}conveyor_to_visual_inspection" type="fixed">
+  <joint name="${prefix}wall_1_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_1"/>
-     <origin xyz="0 0 0"  rpy='0 0 0'/>
+    <origin xyz="0.25 0.75 -0.05"  rpy='0 0 0'/>
   </joint>
-  <joint name="${prefix}wall_1" type="fixed">
+  <joint name="${prefix}wall_2_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_2"/>
-    <origin xyz="0 0 0"  rpy='0 0 0'/>
-  </joint>
-  <joint name="${prefix}wall_2" type="fixed">
-    <parent link="${prefix}table_base"/>
-    <child link="${prefix}wall_2"/>
-    <origin xyz="0 0 0"  rpy='0 0 0'/>
+    <origin xyz="0.55 0.12 -0.05"  rpy='0 0 0'/>
   </joint>
 </xacro:macro>
       
-  </robot>
+</robot>

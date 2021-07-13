@@ -6,7 +6,7 @@
 
 ros::Publisher pub;
 
-void chatterCallback(const sensor_msgs::JointState & msg)
+void callbackBroadcaster(const sensor_msgs::JointState & msg)
 {
 
 
@@ -42,7 +42,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "ursim_broadcaster");
   ros::NodeHandle nh;
   ros::Rate lr(10);
-  ros::Subscriber sub = nh.subscribe("/move_group/fake_controller_joint_states", 1000,chatterCallback);
+  ros::Subscriber sub = nh.subscribe("/move_group/fake_controller_joint_states", 1000,callbackBroadcaster);
   pub = nh.advertise<trajectory_msgs::JointTrajectory>("scaled_pos_joint_traj_controller/command",1000);
   while(ros::ok()){
     ros::spinOnce();

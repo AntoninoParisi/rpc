@@ -50,7 +50,7 @@
     <group_state name="zero" group="arm">
         <joint name="robot_elbow_joint" value="0" />
         <joint name="robot_shoulder_lift_joint" value="-0.0347" />
-        <joint name="robot_shoulder_pan_joint" value="-0.7984" />
+        <joint name="robot_shoulder_pan_joint" value="-1.4927" />
         <joint name="robot_wrist_1_joint" value="-1.6315" />
         <joint name="robot_wrist_2_joint" value="0" />
         <joint name="robot_wrist_3_joint" value="0" />
@@ -94,7 +94,6 @@
     <disable_collisions link1="env_wall_1" link2="robot_base_link_inertia" reason="Never" />
     <disable_collisions link1="env_wall_1" link2="robot_shoulder_link" reason="Never" />
     <disable_collisions link1="env_wall_1" link2="robot_upper_arm_link" reason="Never" />
-    <disable_collisions link1="env_wall_2" link2="env_wall_2" reason="Default" />
     <disable_collisions link1="env_wall_2" link2="robot_base_link_inertia" reason="Never" />
     <disable_collisions link1="env_wall_2" link2="robot_forearm_link" reason="Default" />
     <disable_collisions link1="env_wall_2" link2="robot_shoulder_link" reason="Never" />
