@@ -1,23 +1,35 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">>
 
-<xacro:macro name="environment" params="
-    prefix "
-  >
-<link name="${prefix}table_base">
+<xacro:macro name="environment" params="prefix">
+
+
+
+  <link name="${prefix}table_base">
     <visual>
       <geometry>
-        <box size='1.0 1.0 0.05'/>
+        <mesh filename="package://ur_description/meshes/ur5e/visual/table.stl" scale="0.01 0.01 0.021"/>
       </geometry>
-      <origin xyz="0 0 -0.05" rpy='0 0 0'/>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
       <material name="orange">
           <color rgba="${255/255} ${84/255} ${1/255} 1.0"/>
+      </material>
+    </visual> 
+  </link>
+  <link name="${prefix}floor">
+    <visual>
+      <geometry>
+        <mesh filename="package://ur_description/meshes/ur5e/visual/floor.stl" scale="0.1 0.1 0.1"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
+      <material name="gray">
+          <color rgba="${156/255} ${134/255} ${92/255} 1.0"/>
       </material>
     </visual> 
   </link>
   <link name="${prefix}conveyor_base">
     <visual>
       <geometry>
-        <box size='1.0 5.0 0.05'/>
+          <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.03 0.01 0.01"/>
       </geometry>
       <material name="green">
           <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
@@ -28,9 +40,9 @@
 
   <link name="${prefix}conveyor_to_visual_inspection">
     <visual>
-      <geometry>
-        <box size='1.5 0.75 0.05'/>
-      </geometry>
+        <geometry>
+          <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.01 0.01 0.01"/>
+        </geometry>
       <material name="green">
           <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
       </material>
@@ -67,17 +79,21 @@
 
 
 
-
+  <joint name="${prefix}floor_joint" type="fixed">
+    <parent link="${prefix}table_base"/>
+    <child link="${prefix}floor"/>
+    <origin xyz="0 0 -0.81" rpy='0 0 0'/>
+  </joint>
   
   <joint name="${prefix}conveyor_base_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_base"/>
-    <origin xyz="-1.05 0 -0.05" rpy='0 0 0'/>
+    <origin xyz="-1.05 0 -0.75" rpy='0 0 -1.57'/>
   </joint>
   <joint name="${prefix}conveyor_to_visual_inspection_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_to_visual_inspection"/>
-     <origin xyz="0.25 -0.9 -0.05"  rpy='0 0 0'/>
+     <origin xyz="0.25 -0.9 -0.75"  rpy='0 0 0'/>
   </joint>
   <joint name="${prefix}wall_1_joint" type="fixed">
     <parent link="${prefix}table_base"/>
