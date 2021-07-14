@@ -6,6 +6,6 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/ur5e_robot.srdf
   CONFIG:
-    author_name: antonino parisi, edoardo fiorini
-    author_email: antonino.parisi@studenti.univr.it
-    generated_timestamp: 1626270058
+    author_name: Antonino Parisi, Edoardo Fiorini
+    author_email: Antonino.parisi@studenti.univr.it
+    generated_timestamp: 1626276596
