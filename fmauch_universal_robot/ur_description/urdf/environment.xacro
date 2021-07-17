@@ -1,4 +1,4 @@
-<robot xmlns:xacro="http://wiki.ros.org/xacro">>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
 
 <xacro:macro name="environment" params="prefix">
 
@@ -95,15 +95,17 @@
     <child link="${prefix}conveyor_to_visual_inspection"/>
      <origin xyz="0.25 -0.9 -0.75"  rpy='0 0 0'/>
   </joint>
-  <joint name="${prefix}wall_1_joint" type="fixed">
+  <joint name="${prefix}wall_1_joint" type="prismatic">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_1"/>
     <origin xyz="0.25 0.75 -0.05"  rpy='0 0 0'/>
+    <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
   </joint>
-  <joint name="${prefix}wall_2_joint" type="fixed">
+  <joint name="${prefix}wall_2_joint" type="prismatic">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_2"/>
     <origin xyz="0.55 0.12 -0.05"  rpy='0 0 0'/>
+    <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
   </joint>
 </xacro:macro>
       

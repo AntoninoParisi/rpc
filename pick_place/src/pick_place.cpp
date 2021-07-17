@@ -5,6 +5,7 @@
 
 
 float x_pos_obj = 0.25,y_pos_obj = -0.7,z_pos_obj=0.02;
+float x_pos_final = -0.5,y_pos_final = 0.7 ,z_pos_final=0.02;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
@@ -72,7 +73,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   /* Defined with respect to frame_id */
   grasps[0].post_grasp_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as positive z axis */
-  grasps[0].post_grasp_retreat.direction.vector.x = -1.0;
+  grasps[0].post_grasp_retreat.direction.vector.y = -1.0;
   grasps[0].post_grasp_retreat.min_distance = 0.05;
   grasps[0].post_grasp_retreat.desired_distance = 0.25;
 
@@ -110,22 +111,22 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   place_location[0].place_pose.header.frame_id = "robot_base_link";
   tf2::Quaternion orientation;
 
-  orientation.setEuler(M_PI,0,-M_PI);
+  orientation.setEuler(3.131,0.051,-0.045);
 
   
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* While placing it is the exact location of the center of the object. */
-  place_location[0].place_pose.pose.position.x = -1.05;
-  place_location[0].place_pose.pose.position.y = 0;
-  place_location[0].place_pose.pose.position.z = 0.25;
+  place_location[0].place_pose.pose.position.x = x_pos_final;
+  place_location[0].place_pose.pose.position.y = y_pos_final;
+  place_location[0].place_pose.pose.position.z = z_pos_final+0.18;
 
   // Setting pre-place approach
   // ++++++++++++++++++++++++++
   /* Defined with respect to frame_id */
   place_location[0].pre_place_approach.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative z axis */
-  place_location[0].pre_place_approach.direction.vector.x = -1.0;
+  place_location[0].pre_place_approach.direction.vector.x = 1.0;
   place_location[0].pre_place_approach.min_distance = 0.095;
   place_location[0].pre_place_approach.desired_distance = 0.115;
 
@@ -134,8 +135,8 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   /* Defined with respect to frame_id */
   place_location[0].post_place_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative y axis */
-  place_location[0].post_place_retreat.direction.vector.z = -1.0;
-  place_location[0].post_place_retreat.min_distance = 0.1;
+  place_location[0].post_place_retreat.direction.vector.z = 1.0;
+  place_location[0].post_place_retreat.min_distance = 0.05;
   place_location[0].post_place_retreat.desired_distance = 0.25;
 
   // Setting posture of eef after placing object
@@ -176,6 +177,9 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[0].primitive_poses[0].position.x = x_pos_obj;
   collision_objects[0].primitive_poses[0].position.y = y_pos_obj;
   collision_objects[0].primitive_poses[0].position.z = z_pos_obj;
+  // collision_objects[0].primitive_poses[0].position.x = x_pos_final;
+  // collision_objects[0].primitive_poses[0].position.y = y_pos_final;
+  // collision_objects[0].primitive_poses[0].position.z = z_pos_final;
   // END_SUB_TUTORIAL
 
   collision_objects[0].operation = collision_objects[0].ADD;
@@ -198,7 +202,7 @@ int main(int argc, char** argv)
   addCollisionObjects(planning_scene_interface);
   ROS_INFO("Before pick");
   // Wait a bit for ROS things to initialize
-  ros::WallDuration(3.0).sleep();
+  ros::WallDuration(1.0).sleep();
   ROS_INFO("Picking...");
   pick(group);
   ROS_INFO("After pick");

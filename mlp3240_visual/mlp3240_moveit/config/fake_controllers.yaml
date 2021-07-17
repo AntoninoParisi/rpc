@@ -1,0 +1,10 @@
+controller_list:
+  - name: fake_fingers_controller
+    type: $(arg execution_type)
+    joints:
+      - top_to_finger1_joint
+initial:  # Define initial robot poses.
+#  - group: fingers
+#    pose: home
+
+  []

@@ -34,7 +34,7 @@ planner_configs:
   RRTstar:
     type: geometric::RRTstar
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
-    goal_bias: 0.5  # When close to goal select goal, with this probability? default: 0.05
+    goal_bias: 0.05  # When close to goal select goal, with this probability? default: 0.05
     delay_collision_checking: 1  # Stop collision checking as soon as C-free parent found. default 1
   TRRT:
     type: geometric::TRRT
@@ -120,8 +120,7 @@ planner_configs:
     sparse_delta_fraction: 0.25  # delta fraction for connection distance. This value represents the visibility range of sparse samples. default: 0.25
     dense_delta_fraction: 0.001  # delta fraction for interface detection. default: 0.001
     max_failures: 5000  # maximum consecutive failure limit. default: 5000
-arm:
-  default_planner_config: RRTstar
+fingers:
   planner_configs:
     - SBL
     - EST
@@ -146,28 +145,5 @@ arm:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-gripper:
-  planner_configs:
-    - SBL
-    - EST
-    - LBKPIECE
-    - BKPIECE
-    - KPIECE
-    - RRT
-    - RRTConnect
-    - RRTstar
-    - TRRT
-    - PRM
-    - PRMstar
-    - FMT
-    - BFMT
-    - PDST
-    - STRIDE
-    - BiTRRT
-    - LBTRRT
-    - BiEST
-    - ProjEST
-    - LazyPRM
-    - LazyPRMstar
-    - SPARS
-    - SPARStwo
+  projection_evaluator: joints(top_to_finger1_joint,top_to_finger2_joint)
+  longest_valid_segment_fraction: 0.005

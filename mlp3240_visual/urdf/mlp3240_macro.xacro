@@ -1,0 +1,127 @@
+<robot  xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="mlp3240">
+        <xacro:property name="physical_parameters" value="${load_yaml('$(find mlp3240_visual)/config/physical_params.yaml')}"/>    
+
+        <material name="white">
+            <color rgba="1 1 1 1"/>
+        </material>        
+            
+            <link name="base_link">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['base_x']} ${physical_parameters['base_y']} ${physical_parameters['base_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+            <link name="left">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['left_x']} ${physical_parameters['left_y']} ${physical_parameters['left_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+
+            <link name="right">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['right_x']} ${physical_parameters['right_y']} ${physical_parameters['right_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+            <link name="back">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['back_x']} ${physical_parameters['back_y']} ${physical_parameters['back_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+            <link name="front">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['front_x']} ${physical_parameters['front_y']} ${physical_parameters['front_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+            <link name="top">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['top_x']} ${physical_parameters['top_y']} ${physical_parameters['top_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+            
+            <link name="finger1">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['finger1_x']} ${physical_parameters['finger1_y']} ${physical_parameters['finger1_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+            <link name="finger2">
+                <visual>
+                    <origin xyz="0 0 0" rpy="0 0 0" />
+                    <geometry>
+                        <box size="${physical_parameters['finger2_x']} ${physical_parameters['finger2_y']} ${physical_parameters['finger2_z']}"/>
+                    </geometry>
+                    <material name="white"/>
+                </visual>
+            </link>
+
+
+        
+        <joint name="base_to_left_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="left"/>
+            <origin xyz="${physical_parameters['base_x']/2} 0 0.015" rpy='0 0 0'/>
+        </joint>
+        <joint name="base_to_right_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="right"/>
+            <origin xyz="-${physical_parameters['base_x']/2} 0 0.015" rpy='0 0 0'/>
+        </joint>
+        <joint name="base_to_front_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="front"/>
+            <origin xyz="0 ${physical_parameters['base_y']/2} 0.015" rpy='0 0 0'/>
+        </joint>
+        <joint name="base_to_back_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="back"/>
+            <origin xyz="0 -${physical_parameters['base_y']/2} 0.015" rpy='0 0 0'/>
+        </joint>
+        <joint name="left_to_top_joint" type="fixed">
+            <parent link="left"/>
+            <child link="top"/>
+            <origin xyz="-${physical_parameters['left_y']} 0 0.03" rpy='0 0 0'/>
+        </joint>
+        <joint name="top_to_finger1_joint" type="prismatic">
+            <parent link="top"/>
+            <child link="finger1"/>
+            <origin xyz="${physical_parameters['top_x']/2 - 0.005} 0 0.021" rpy='0 0 -3.14'/>
+            <limit upper="0.042" lower="0.0" effort="300" velocity="1"/>
+        </joint>
+        <joint name="top_to_finger2_joint" type="prismatic">
+            <parent link="top"/>
+            <child link="finger2"/>
+            <origin xyz="-${physical_parameters['top_x']/2 - 0.005} 0 0.021" rpy='0 0 0'/>
+            <limit upper="0.042" lower="0.0" effort="300" velocity="1"/>
+            <mimic joint="top_to_finger1_joint" multiplier="1.0" offset="0.0" />
+        </joint>
+
+    </xacro:macro>
+
+</robot>

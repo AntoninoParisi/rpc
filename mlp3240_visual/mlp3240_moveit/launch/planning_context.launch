@@ -6,21 +6,21 @@
   <arg name="robot_description" default="robot_description"/>
 
   <!-- Load universal robot description format (URDF) -->
-  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro  '$(find ur_description)/urdf/ur5e_no_env.xacro'"/>
+  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro  '$(find mlp3240_visual)/urdf/mlp3240.xacro'"/>
 
   <!-- The semantic description that corresponds to the URDF -->
-  <param name="$(arg robot_description)_semantic" textfile="$(find ur5e_2f_moveit)/config/ur5e_robot.srdf" />
+  <param name="$(arg robot_description)_semantic" textfile="$(find mlp3240_moveit)/config/mpl3240.srdf" />
 
   <!-- Load updated joint limits (override information from URDF) -->
   <group ns="$(arg robot_description)_planning">
-    <rosparam command="load" file="$(find ur5e_2f_moveit)/config/joint_limits.yaml"/>
-    <rosparam command="load" file="$(find ur5e_2f_moveit)/config/cartesian_limits.yaml"/>
+    <rosparam command="load" file="$(find mlp3240_moveit)/config/joint_limits.yaml"/>
+    <rosparam command="load" file="$(find mlp3240_moveit)/config/cartesian_limits.yaml"/>
   </group>
 
   <!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
   <group ns="$(arg robot_description)_kinematics">
-    <rosparam command="load" file="$(find ur5e_2f_moveit)/config/kinematics.yaml"/>
-    <rosparam command="load" ns="arm" file="$(find ur_description)/config/ur5e/default_kinematics.yaml"/>
+    <rosparam command="load" file="$(find mlp3240_moveit)/config/kinematics.yaml"/>
+
   </group>
 
 </launch>

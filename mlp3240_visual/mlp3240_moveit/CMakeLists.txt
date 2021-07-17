@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1.3)
-project(ur5e_2f_moveit)
+project(mlp3240_moveit)
 
 find_package(catkin REQUIRED)
 

@@ -1,0 +1,34 @@
+# Physical parameters
+
+base_x: 0.1
+base_y: 0.05
+base_z: 0.02
+
+left_x: 0.01 
+left_y: 0.05
+left_z: 0.05
+
+right_x: 0.01
+right_y: 0.05
+right_z: 0.05
+
+front_x: 0.11
+front_y: 0.01
+front_z: 0.05
+
+back_x: 0.11
+back_y: 0.01
+back_z: 0.05
+
+top_x: 0.11
+top_y: 0.06
+top_z: 0.02
+
+finger1_x: 0.01 
+finger1_y: 0.02
+finger1_z: 0.02
+
+
+finger2_x: 0.01
+finger2_y: 0.02
+finger2_z: 0.02

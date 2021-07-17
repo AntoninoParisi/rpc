@@ -1,12 +1,12 @@
 <package>
 
-  <name>ur5e_2f_moveit</name>
+  <name>mlp3240_moveit</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the ur5e_robot with the MoveIt! Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the mpl3240 with the MoveIt! Motion Planning Framework
   </description>
-  <author email="Antonino.parisi@studenti.univr.it">Antonino Parisi,Edoardo Fiorini</author>
-  <maintainer email="Antonino.parisi@studenti.univr.it">Antonino Parisi,Edoardo Fiorini</maintainer>
+  <author email="antonino.parisi@studenti.univr.it">antonino parisi,edoardo fiorini</author>
+  <maintainer email="antonino.parisi@studenti.univr.it">antonino parisi,edoardo fiorini</maintainer>
 
   <license>BSD</license>
 
@@ -31,7 +31,7 @@
   <run_depend>xacro</run_depend>
   <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
   <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
-    <run_depend>ur_description</run_depend>
+    <run_depend>mlp3240_visual</run_depend>
 
 
 </package>

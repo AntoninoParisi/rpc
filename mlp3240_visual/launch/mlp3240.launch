@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<launch>  
+  <arg name="model" default="$(find mlp3240_visual)/urdf/mlp3240.xacro"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />  
+  <arg name="rvizconfig" default="$(find mlp3240_visual)/rviz/urdf.rviz" /> 
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="rate" value="20.0" />
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
+        <param name="rate" value="20.0" />
+  </node>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mlp3240_visual)/rviz/urdf.rviz" required="true" />
+</launch>
+
+<!-- <launch>
+
+  <arg name="model" default="$(find mlp3240_visual)/urdf/mlp3240_macro.xacro"/>
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find scara_tutorial_2)/rviz/urdf.rviz" /> 
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node if="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+  <node unless="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="" required="true" />
+
+</launch> -->
