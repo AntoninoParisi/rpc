@@ -22,7 +22,7 @@
 <p class="has-line-data" data-line-start="26" data-line-end="27">To ensure the best reliability we have developed the gripper model from scratch.</p>
 <h2 class="code-line" data-line-start=27 data-line-end=28 ><a id="Environment_27"></a>Environment</h2>
 <p class="has-line-data" data-line-start="28" data-line-end="31">The production line of the ICELab has been reconstructed in minimal details to avoid gap between the simulation and the real task. To use URSim it is necessary to have all the real parameters regarding the conveyors belt and the support of UR5e. Only in this way what happens in the simulator is exactly what will expect in reality. In following is shown respectively the prodcuction line plant and the geometric model:<br>
-<img src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg?aw=true" alt="Alt text" title="Production Line"><br>
+<img src="image/modelloIceLab.png?raw=true" alt="Alt text" title="Production Line"><br>
 <img src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg?aw=true" alt="Alt text" title="Geometric Model"></p>
 <h2 class="code-line" data-line-start=33 data-line-end=34 ><a id="Requirements_33"></a>Requirements</h2>
 <p class="has-line-data" data-line-start="35" data-line-end="36">This workspace requires a system setup with ROS. It is recommended to use:</p>
@@ -38,15 +38,15 @@
 
 git clone https://github.com/AntoninoParisi/rpc.git
 
-# rename rpc to src (do it with gui interface)
+#rename rpc to src (do it with gui interface)
 cd $HOME/your_ros_ws/src
 catkin_init_workspace
 cd ..
 
-# building
+#building
 catkin_make
 
-# activate this workspace
+#activate this workspace
 source $HOME/your_ros_ws/devel/setup.bash
 </code></pre>
 <p class="has-line-data" data-line-start="65" data-line-end="66">There could be some problems with ROS-packages or dependencies. Check out the package.xml and install all the package that the catkin_make needs.</p>
@@ -104,13 +104,6 @@ source $HOME/your_ros_ws/devel/setup.bash
 
 
 
-<span class="hljs-comment"># calibration command</span>
-roslaunch ur_calibration calibration_correction.launch robot_ip:=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> target_filename:=<span class="hljs-string">"<span class="hljs-variable">$(rospack find ur_calibration)</span>/etc/ex-ur5e_calibration.yaml"</span>
-<span class="hljs-comment"># launch ursim with calibration</span>
-roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> kinematics_config:=$(rospack find ur_calibration)/etc/ex-ur5e_calibration.yaml
 
-
-<span class="hljs-comment"># to enable the comunication with ursim must start ursim_broadcaster</span>
-rosrun ursim_broadcaster ursim_broadcaster
 
 </code></pre>
