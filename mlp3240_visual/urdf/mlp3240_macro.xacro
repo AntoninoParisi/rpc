@@ -111,7 +111,7 @@
         <joint name="top_to_finger1_joint" type="prismatic">
             <parent link="top"/>
             <child link="finger1"/>
-            <origin xyz="${physical_parameters['top_x']/2 - 0.005} 0 0.021" rpy='0 0 -3.14'/>
+            <origin xyz="${physical_parameters['top_x']/2 - 0.005} 0 0.0211" rpy='0 0 -3.14'/>
             <limit upper="0.042" lower="0.0" effort="300" velocity="1"/>
         </joint>
         <joint name="top_to_finger2_joint" type="prismatic">
