@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5e_robot">
+  
+<!-- include macros for UR5 and the 2f gripper -->
+
+<xacro:include filename="$(find ur_description)/urdf/inc/ur5e_macro.xacro"/>
+<xacro:include filename="$(find mlp3240_visual)/urdf/mlp3240_macro.xacro"/>
+<xacro:include filename="$(find ur_description)/urdf/environment.xacro"/>
+
+<!-- create the robot + eef combo itself as a macro -->
+<xacro:macro name="ee_robot" params="prefix">
+
+<!-- instantiate UR5 and 2f gripper -->
+  <xacro:ur5e_robot prefix="${prefix}robot_"/>
+  <xacro:mlp3240 prefix="${prefix}gripper_" />
+  <xacro:environment prefix="${prefix}env_"/>
+
+
+  <!-- attach gripper -->
+  <joint name="${prefix}robot_tool0-${prefix}gripper_base_link" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="${prefix}robot_tool0"/>
+    <child link="${prefix}gripper_base_link" />
+  </joint>
+
+  <!-- env -->
+  <joint name="${prefix}env_to_robot" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="${prefix}env_table_base"/>
+    <child link="${prefix}robot_base_link" />
+  </joint>
+</xacro:macro>
+<xacro:ee_robot prefix=""/>
+
+</robot>

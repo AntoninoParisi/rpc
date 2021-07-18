@@ -1,8 +1,6 @@
 <robot  xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="mlp3240" params="prefix">
-    <xacro:property name="physical_parameters" value="${load_yaml('$(find mlp3240_visual)/config/physical_params.yaml')}"/>    
-
-        
+        <xacro:property name="physical_parameters" value="${load_yaml('$(find mlp3240_visual)/config/physical_params.yaml')}"/>    
 
         <material name="white">
             <color rgba="1 1 1 1"/>
@@ -10,86 +8,74 @@
             
             <link name="${prefix}base_link">
                 <visual>
-                    <origin xyz="0 0 0" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/bottom.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['base_x']} ${physical_parameters['base_y']} ${physical_parameters['base_z']}"/>
                     </geometry>
-                    <material name="black">
-                        <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
-                    </material>
+                    <material name="white"/>
                 </visual>
             </link>
             <link name="${prefix}left">
                 <visual>
-                    <origin xyz="-0.01 0 0.014" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/lateral.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['left_x']} ${physical_parameters['left_y']} ${physical_parameters['left_z']}"/>
                     </geometry>
-                    <material name="black">
-                        <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
-                    </material>
+                    <material name="white"/>
                 </visual>
             </link>
 
             <link name="${prefix}right">
                 <visual>
-                    <origin xyz="0.01 0 0.014" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/lateral.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['right_x']} ${physical_parameters['right_y']} ${physical_parameters['right_z']}"/>
                     </geometry>
-                    <material name="black">
-                        <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
-                    </material>
+                    <material name="white"/>
                 </visual>
             </link>
             <link name="${prefix}back">
                 <visual>
-                    <origin xyz="0 -0.005 0.0065" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/front.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['back_x']} ${physical_parameters['back_y']} ${physical_parameters['back_z']}"/>
                     </geometry>
-                    <material name="black">
-                        <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
-                    </material>
+                    <material name="white"/>
                 </visual>
             </link>
             <link name="${prefix}front">
                 <visual>
-                    <origin xyz="0 0.005 0.0065" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/front.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['front_x']} ${physical_parameters['front_y']} ${physical_parameters['front_z']}"/>
                     </geometry>
-                    <material name="black">
-                        <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
-                    </material>
+                    <material name="white"/>
                 </visual>
             </link>
             <link name="${prefix}top">
                 <visual>
-                    <origin xyz="0 0 0.006" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/top.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['top_x']} ${physical_parameters['top_y']} ${physical_parameters['top_z']}"/>
                     </geometry>
-                    <material name="black">
-                        <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
-                    </material>
+                    <material name="white"/>
                 </visual>
             </link>
             
             <link name="${prefix}finger1">
                 <visual>
-                    <origin xyz="0.015 0 0.001" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/finger.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['finger1_x']} ${physical_parameters['finger1_y']} ${physical_parameters['finger1_z']}"/>
                     </geometry>
                     <material name="white"/>
                 </visual>
             </link>
             <link name="${prefix}finger2">
                 <visual>
-                    <origin xyz="0.015 0 0.001" rpy="0 0 1.57" />
+                    <origin xyz="0 0 0" rpy="0 0 0" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/finger.stl" scale="0.001 0.001 0.001"/>
+                        <box size="${physical_parameters['finger2_x']} ${physical_parameters['finger2_y']} ${physical_parameters['finger2_z']}"/>
                     </geometry>
                     <material name="white"/>
                 </visual>
@@ -125,13 +111,13 @@
             <parent link="${prefix}top"/>
             <child link="${prefix}finger1"/>
             <origin xyz="${physical_parameters['top_x']/2 - 0.005} 0 0.0211" rpy='0 0 -3.14'/>
-            <limit upper="0.0336" lower="0.0" effort="300" velocity="1"/>
+            <limit upper="0.042" lower="0.0" effort="300" velocity="1"/>
         </joint>
         <joint name="${prefix}top_to_finger2_joint" type="prismatic">
             <parent link="${prefix}top"/>
             <child link="${prefix}finger2"/>
             <origin xyz="-${physical_parameters['top_x']/2 - 0.005} 0 0.021" rpy='0 0 0'/>
-            <limit upper="0.0336" lower="0.0" effort="300" velocity="1"/>
+            <limit upper="0.042" lower="0.0" effort="300" velocity="1"/>
             <mimic joint="${prefix}top_to_finger1_joint" multiplier="1.0" offset="0.0" />
         </joint>
 

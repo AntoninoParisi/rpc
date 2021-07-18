@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ur_description
+    relative_path: urdf/ur5e_mlp3240.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/ur5e_robot.srdf
+  CONFIG:
+    author_name: antonino parisi, edoardo fiorini
+    author_email: antonino.parisi@studenti.univr.it
+    generated_timestamp: 1626604955

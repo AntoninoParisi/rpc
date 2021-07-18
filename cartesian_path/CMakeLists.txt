@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(planner_rpc)
+project(cartesian_path)
 
 find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface 
