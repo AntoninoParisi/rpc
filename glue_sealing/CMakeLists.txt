@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(cartesian_path)
+project(glue_sealing)
 
 find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface 
