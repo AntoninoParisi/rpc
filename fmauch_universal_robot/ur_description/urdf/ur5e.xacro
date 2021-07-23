@@ -25,9 +25,9 @@
 
   <!-- env -->
   <joint name="${prefix}env_to_robot" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0.25 -1.5 0" rpy="0 0 0"/>
     <parent link="${prefix}env_table_base"/>
-    <child link="${prefix}robot_base_link" />
+    <child link="${prefix}robot_base_link"/>
   </joint>
 </xacro:macro>
 <xacro:ee_robot prefix=""/>

@@ -7,7 +7,8 @@
   <link name="${prefix}table_base">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur5e/visual/table.stl" scale="0.01 0.01 0.021"/>
+        <!-- <mesh filename="package://ur_description/meshes/ur5e/visual/table.stl" scale="0.01 0.01 0.021"/> -->
+        <box size="0.66 0.66 0.05"/>
       </geometry>
       <origin xyz="0 0 0" rpy='0 0 0'/>
       <material name="orange">
@@ -29,7 +30,8 @@
   <link name="${prefix}conveyor_base">
     <visual>
       <geometry>
-          <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.03 0.01 0.01"/>
+        <box size="2 0.25 0.05"/>
+        <!-- <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.03 0.01 0.01"/> -->
       </geometry>
       <material name="green">
           <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
@@ -41,7 +43,8 @@
   <link name="${prefix}conveyor_to_visual_inspection">
     <visual>
         <geometry>
-          <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.01 0.01 0.01"/>
+          <box size="1 0.25 0.05"/>
+          <!-- <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.01 0.01 0.01"/> -->
         </geometry>
       <material name="green">
           <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
@@ -65,7 +68,7 @@
   <link name="${prefix}wall_2">
     <visual>
       <geometry>
-        <box size='0.05 1.2 1.5'/>
+        <box size='0.05 0.85 1.5'/>
       </geometry>
       <origin xyz="0 0 0" rpy='0 0 0'/>
       <material name="yellow">
@@ -82,30 +85,28 @@
   <joint name="${prefix}floor_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}floor"/>
-    <origin xyz="0 0 -0.81" rpy='0 0 0'/>
+    <origin xyz="0 0 -0.75" rpy='0 0 0'/>
   </joint>
   
   <joint name="${prefix}conveyor_base_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_base"/>
-    <origin xyz="-1.05 0 -0.75" rpy='0 0 -1.57'/>
+    <origin xyz="-0.45 0 0" rpy='0 0 -1.57'/>
   </joint>
   <joint name="${prefix}conveyor_to_visual_inspection_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_to_visual_inspection"/>
-     <origin xyz="0.25 -0.9 -0.75"  rpy='0 0 0'/>
+     <origin xyz="0.25 -0.45 0"  rpy='0 0 0'/>
   </joint>
-  <joint name="${prefix}wall_1_joint" type="prismatic">
+  <joint name="${prefix}wall_1_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_1"/>
-    <origin xyz="0.25 0.75 -0.05"  rpy='0 0 0'/>
-    <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
+    <origin xyz="0.25 0.6 0"  rpy='0 0 0'/>
   </joint>
-  <joint name="${prefix}wall_2_joint" type="prismatic">
+  <joint name="${prefix}wall_2_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_2"/>
-    <origin xyz="0.55 0.12 -0.05"  rpy='0 0 0'/>
-    <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
+    <origin xyz="0.4 0.12 0"  rpy='0 0 0'/>
   </joint>
 </xacro:macro>
       

@@ -16,8 +16,6 @@ hardware_interface:
     - robot_wrist_2_joint
     - robot_wrist_3_joint
     - gripper_top_to_finger1_joint
-    - env_wall_1_joint
-    - env_wall_2_joint
   sim_control_mode: 1  # 0: position, 1: velocity
 # Publish all joint states
 # Creates the /joint_states topic necessary in ROS
