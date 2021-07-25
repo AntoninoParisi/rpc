@@ -238,14 +238,15 @@ int main(int argc, char** argv)
 
   current_pose = move_group_arm.getCurrentPose().pose;
 
-  tf2::Quaternion q( 0.504,0.495,-0.483,-0.517);
+  tf2::Quaternion q;
 
-  // q.setRPY(0,0,1.571);
+  q.setRPY(M_PI,0,M_PI);
+
 
   geometry_msgs::Pose a_vertex = current_pose;
-  a_vertex.position.x = 0.3;
-  a_vertex.position.y = 0.3;
-  a_vertex.position.z = 0.3;
+  a_vertex.position.x = 0.05;
+  a_vertex.position.y = -0.4;
+  a_vertex.position.z = 0.15;
   a_vertex.orientation.x = q.x();
   a_vertex.orientation.y = q.y();
   a_vertex.orientation.z = q.z();
@@ -254,9 +255,9 @@ int main(int argc, char** argv)
 
 
   geometry_msgs::Pose b_vertex = current_pose;
-  b_vertex.position.x = 0.3;
-  b_vertex.position.y = 0.45;
-  b_vertex.position.z = 0.3;
+  b_vertex.position.x = 0.1;
+  b_vertex.position.y = -0.4;
+  b_vertex.position.z = 0.15;
   b_vertex.orientation.x = q.x();
   b_vertex.orientation.y = q.y();
   b_vertex.orientation.z = q.z();
@@ -264,9 +265,9 @@ int main(int argc, char** argv)
 
 
   geometry_msgs::Pose c_vertex = current_pose;
-  c_vertex.position.x = 0.35;
-  c_vertex.position.y = 0.45;
-  c_vertex.position.z = 0.3;
+  c_vertex.position.x = 0.1;
+  c_vertex.position.y = -0.45;
+  c_vertex.position.z = 0.15;
   c_vertex.orientation.x = q.x();
   c_vertex.orientation.y = q.y();
   c_vertex.orientation.z = q.z();
@@ -275,9 +276,9 @@ int main(int argc, char** argv)
 
 
   geometry_msgs::Pose d_vertex = current_pose;
-  d_vertex.position.x = 0.35;
-  d_vertex.position.y = 0.3;
-  d_vertex.position.z = 0.3;
+  d_vertex.position.x = 0.05;
+  d_vertex.position.y = -0.45;
+  d_vertex.position.z = 0.15;
   d_vertex.orientation.x = q.x();
   d_vertex.orientation.y = q.y();
   d_vertex.orientation.z = q.z();
