@@ -53,11 +53,11 @@ int main(int argc, char** argv)
   std::vector<double> joint_group_positions;
   moveit::core::RobotStatePtr current_state = move_group_arm.getCurrentState();
   current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
-  joint_group_positions[0] = 0;
-  joint_group_positions[1] = 0;
-  joint_group_positions[2] = 0;
-  joint_group_positions[3] = 0;
-  joint_group_positions[4] = 0;
+  joint_group_positions[0] = -1.5621;
+  joint_group_positions[1] = -1.5621;
+  joint_group_positions[2] = 1.7183;
+  joint_group_positions[3] = 2.9506;
+  joint_group_positions[4] = -1.5621;
   joint_group_positions[5] = 0;
   move_group_arm.setJointValueTarget(joint_group_positions);
   auto success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
