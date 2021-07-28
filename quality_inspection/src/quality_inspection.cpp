@@ -14,6 +14,7 @@
 float x_pos_obj = 0.25,y_pos_obj = -0.4,z_pos_obj=0.05;
 float x_pos_final = 0.3,y_pos_final = -0.4 ,z_pos_final=0.25;
 
+
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
   // BEGIN_SUB_TUTORIAL open_gripper
@@ -118,14 +119,14 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   place_location[0].place_pose.header.frame_id = "robot_base_link";
   tf2::Quaternion orientation;
 
-  orientation.setEuler(-M_PI,0,M_PI/2);
+  orientation.setRPY(0,-M_PI/2,M_PI);
   
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* While placing it is the exact location of the center of the object. */
   place_location[0].place_pose.pose.position.x = x_pos_obj;
   place_location[0].place_pose.pose.position.y = y_pos_obj;
-  place_location[0].place_pose.pose.position.z = z_pos_obj+0.0056;
+  place_location[0].place_pose.pose.position.z = z_pos_obj+0.0095;
 
   // Setting pre-place approach
   // ++++++++++++++++++++++++++
@@ -141,7 +142,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   /* Defined with respect to frame_id */
   place_location[0].post_place_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative y axis */
-  place_location[0].post_place_retreat.direction.vector.y = -1.0;
+  place_location[0].post_place_retreat.direction.vector.y = 1.0;
   place_location[0].post_place_retreat.min_distance = 0.095;
   place_location[0].post_place_retreat.desired_distance = 0.115;
 
@@ -192,6 +193,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 
   planning_scene_interface.applyCollisionObjects(collision_objects);
 }
+
 
 void inspection(){
 
@@ -278,21 +280,50 @@ void inspection(){
     move_group_arm.execute(trajectory);
 
 
-
-    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
     
-    joint_group_positions[5] = 1.57;
+
+
+
+    current_state = move_group_arm.getCurrentState();
+    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
+
+    for(int i=0;i<6;i++)
+    {
+        //joint_group_positions[i] = real_joint_state_vect[i];
+        ROS_INFO("Joint %i : %.3f\n",i,joint_group_positions[i]);
+
+    }   
+    
+    joint_group_positions[5] = M_PI/2;
     move_group_arm.setJointValueTarget(joint_group_positions);
     success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Returning to home position: %s", success ? "SUCCESS" : "FAILED");
+    ROS_INFO_NAMED("HomeworkB2", "Upper inspection: %s", success ? "SUCCESS" : "FAILED");
     move_group_arm.execute(my_plan);
 
-    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
+
+    ros::WallDuration(1.0).sleep();
+
     
-    joint_group_positions[5] = -1.57;
+    joint_group_positions[5] = -M_PI/2;
     move_group_arm.setJointValueTarget(joint_group_positions);
     success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Returning to home position: %s", success ? "SUCCESS" : "FAILED");
+    ROS_INFO_NAMED("HomeworkB2", "Lower inspection: %s", success ? "SUCCESS" : "FAILED");
+    move_group_arm.execute(my_plan);
+
+
+    ros::WallDuration(1.0).sleep();
+
+    
+    joint_group_positions[0] = -1.1168451017843106;
+    joint_group_positions[0] = -2.0381927497440886;
+    joint_group_positions[0] = 0.7111268045163133;
+    joint_group_positions[0] =  0.025691011778900024;
+    joint_group_positions[0] = 1.6365856703855448;
+    joint_group_positions[0] =  3.1226449844854054;
+
+    move_group_arm.setJointValueTarget(joint_group_positions);
+    success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    ROS_INFO_NAMED("HomeworkB2", "Lower inspection: %s", success ? "SUCCESS" : "FAILED");
     move_group_arm.execute(my_plan);
 
 
@@ -323,7 +354,7 @@ int main(int argc, char** argv)
 
 
     ROS_INFO("Picking...");
-    //pick(group);
+    pick(group);
     ROS_INFO("After pick");
 
     ros::WallDuration(1.0).sleep();
@@ -335,7 +366,7 @@ int main(int argc, char** argv)
     ros::WallDuration(1.0).sleep();
     ROS_INFO("Placing...");
 
-    //place(group);
+    place(group);
 
     ROS_INFO("Shutting down the whole program...");
 
