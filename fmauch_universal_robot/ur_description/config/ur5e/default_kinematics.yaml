@@ -5,7 +5,7 @@ kinematics:
     z: 0.1625
     roll: 0
     pitch: 0
-    yaw: 0
+    yaw: 0.78539816339
   upper_arm:
     x: 0
     y: 0
