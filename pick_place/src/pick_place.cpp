@@ -196,7 +196,7 @@ int main(int argc, char** argv)
   ros::WallDuration(1.0).sleep();
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("arm");
-  group.setPlanningTime(10.0);
+  group.setPlanningTime(30.0);
   std::cout << "stato : " << group.getPlannerId();
   addCollisionObjects(planning_scene_interface);
   ROS_INFO("Before pick");

@@ -119,14 +119,14 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   place_location[0].place_pose.header.frame_id = "robot_base_link";
   tf2::Quaternion orientation;
 
-  orientation.setRPY(0,-M_PI/2,M_PI);
+  orientation.setEuler(0,0,M_PI/2);
   
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* While placing it is the exact location of the center of the object. */
   place_location[0].place_pose.pose.position.x = x_pos_obj;
   place_location[0].place_pose.pose.position.y = y_pos_obj;
-  place_location[0].place_pose.pose.position.z = z_pos_obj+0.0095;
+  place_location[0].place_pose.pose.position.z = z_pos_obj+0.08;
 
   // Setting pre-place approach
   // ++++++++++++++++++++++++++
@@ -142,7 +142,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   /* Defined with respect to frame_id */
   place_location[0].post_place_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative y axis */
-  place_location[0].post_place_retreat.direction.vector.y = 1.0;
+  place_location[0].post_place_retreat.direction.vector.x = -1.0;
   place_location[0].post_place_retreat.min_distance = 0.095;
   place_location[0].post_place_retreat.desired_distance = 0.115;
 
@@ -294,7 +294,7 @@ void inspection(){
 
     }   
     
-    joint_group_positions[5] = M_PI/2;
+    joint_group_positions[5] = M_PI;
     move_group_arm.setJointValueTarget(joint_group_positions);
     success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
     ROS_INFO_NAMED("HomeworkB2", "Upper inspection: %s", success ? "SUCCESS" : "FAILED");
@@ -304,7 +304,7 @@ void inspection(){
     ros::WallDuration(1.0).sleep();
 
     
-    joint_group_positions[5] = -M_PI/2;
+    joint_group_positions[5] = -M_PI;
     move_group_arm.setJointValueTarget(joint_group_positions);
     success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
     ROS_INFO_NAMED("HomeworkB2", "Lower inspection: %s", success ? "SUCCESS" : "FAILED");
@@ -312,18 +312,18 @@ void inspection(){
 
 
     ros::WallDuration(1.0).sleep();
-
     
-    joint_group_positions[0] = -1.1168451017843106;
-    joint_group_positions[0] = -2.0381927497440886;
-    joint_group_positions[0] = 0.7111268045163133;
-    joint_group_positions[0] =  0.025691011778900024;
-    joint_group_positions[0] = 1.6365856703855448;
-    joint_group_positions[0] =  3.1226449844854054;
+    joint_group_positions[2] = 1.3109108405586278;
+    joint_group_positions[1] = -1.6298729451988205;
+    joint_group_positions[0] = -2.881820193359532;
+    joint_group_positions[3] =  0.07078617730403819;
+    joint_group_positions[4] =  1.7008332839692943;
+    joint_group_positions[5] =  1.4926065732611808 ;
 
+ 
     move_group_arm.setJointValueTarget(joint_group_positions);
     success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Lower inspection: %s", success ? "SUCCESS" : "FAILED");
+    ROS_INFO_NAMED("HomeworkB2", "Back to position before-place: %s", success ? "SUCCESS" : "FAILED");
     move_group_arm.execute(my_plan);
 
 
@@ -341,7 +341,7 @@ int main(int argc, char** argv)
     ros::WallDuration(1.0).sleep();
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
     moveit::planning_interface::MoveGroupInterface group("arm");
-    group.setPlanningTime(10.0);
+    group.setPlanningTime(30.0);
     std::cout << "stato : " << group.getPlannerId();
     addCollisionObjects(planning_scene_interface);
     ROS_INFO("Before pick");
