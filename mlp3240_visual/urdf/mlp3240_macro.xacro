@@ -57,7 +57,7 @@
                 <visual>
                     <origin xyz="0 0.005 0.0065" rpy="0 0 1.57" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/front.stl" scale="0.001 0.001 0.001"/>
+                        <mesh filename="package://mlp3240_visual/mesh/visual/front_w_box.stl" scale="0.001 0.001 0.001"/>
                     </geometry>
                     <material name="black">
                         <color rgba="${61/255} ${61/255} ${61/255} 1.0"/>
@@ -80,7 +80,7 @@
                 <visual>
                     <origin xyz="0.015 0 0.001" rpy="0 0 1.57" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/finger.stl" scale="0.001 0.001 0.001"/>
+                        <mesh filename="package://mlp3240_visual/mesh/visual/finger_1.stl" scale="0.001 0.001 0.001"/>
                     </geometry>
                     <material name="white"/>
                 </visual>
@@ -89,7 +89,7 @@
                 <visual>
                     <origin xyz="0.015 0 0.001" rpy="0 0 1.57" />
                     <geometry>
-                        <mesh filename="package://mlp3240_visual/mesh/visual/finger.stl" scale="0.001 0.001 0.001"/>
+                        <mesh filename="package://mlp3240_visual/mesh/visual/finger_2.stl" scale="0.001 0.001 0.001"/>
                     </geometry>
                     <material name="white"/>
                 </visual>

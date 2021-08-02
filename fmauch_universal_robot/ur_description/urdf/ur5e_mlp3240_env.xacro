@@ -25,7 +25,7 @@
 
   <!-- env -->
   <joint name="${prefix}env_to_robot" type="fixed">
-    <origin xyz="0.0425 -0.0925  0" rpy="0 0 0"/>
+    <origin xyz="0.0425 -0.0925  0.015" rpy="0 0 0"/>
     <parent link="${prefix}env_table_base"/>
     <child link="${prefix}robot_base_link" />
   </joint>
