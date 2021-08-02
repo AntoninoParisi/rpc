@@ -255,7 +255,7 @@ int main(int argc, char** argv)
 
 
   geometry_msgs::Pose b_vertex = current_pose;
-  b_vertex.position.x = 0.1;
+  b_vertex.position.x = 0.15;
   b_vertex.position.y = -0.4;
   b_vertex.position.z = 0.15;
   b_vertex.orientation.x = q.x();
@@ -265,8 +265,8 @@ int main(int argc, char** argv)
 
 
   geometry_msgs::Pose c_vertex = current_pose;
-  c_vertex.position.x = 0.1;
-  c_vertex.position.y = -0.45;
+  c_vertex.position.x = 0.15;
+  c_vertex.position.y = -0.55;
   c_vertex.position.z = 0.15;
   c_vertex.orientation.x = q.x();
   c_vertex.orientation.y = q.y();
@@ -274,10 +274,20 @@ int main(int argc, char** argv)
   c_vertex.orientation.w = q.w();
 
 
+  geometry_msgs::Pose x_vertex = current_pose;
+  x_vertex.position.x = 0.1;
+  x_vertex.position.y = -0.45;
+  x_vertex.position.z = 0.15;
+  x_vertex.orientation.x = q.x();
+  x_vertex.orientation.y = q.y();
+  x_vertex.orientation.z = q.z();
+  x_vertex.orientation.w = q.w();
+
+
 
   geometry_msgs::Pose d_vertex = current_pose;
   d_vertex.position.x = 0.05;
-  d_vertex.position.y = -0.45;
+  d_vertex.position.y = -0.55;
   d_vertex.position.z = 0.15;
   d_vertex.orientation.x = q.x();
   d_vertex.orientation.y = q.y();
@@ -292,6 +302,7 @@ int main(int argc, char** argv)
   waypoints.clear();
   waypoints.push_back(a_vertex);
   waypoints.push_back(b_vertex);
+  waypoints.push_back(x_vertex);
   waypoints.push_back(c_vertex);
   waypoints.push_back(d_vertex);
   waypoints.push_back(a_vertex);
