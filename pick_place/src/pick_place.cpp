@@ -4,12 +4,12 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 
-float x_pos_obj = 0.25,y_pos_obj = -0.4,z_pos_obj=0.05;
-float x_pos_final = -0.5,y_pos_final = 0 ,z_pos_final=0.05;
+float x_pos_obj = 0.2075,y_pos_obj = -0.3575,z_pos_obj=0.05;
+float x_pos_final = -0.5,y_pos_final = 0 ,z_pos_final=0.06;
 
 void openGripper(trajectory_msgs::JointTrajectory& posture)
 {
-  // BEGIN_SUB_TUTORIAL open_gripper
+  //  open_gripper
   /* Add both finger joints of panda robot. */
   posture.joint_names.resize(2);
   posture.joint_names[0] = "gripper_top_to_finger1_joint";
@@ -21,12 +21,11 @@ void openGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].positions[0] = 0.00;
   posture.points[0].positions[1] = 0.00;
   posture.points[0].time_from_start = ros::Duration(0.5);
-  // END_SUB_TUTORIAL
 }
 
 void closedGripper(trajectory_msgs::JointTrajectory& posture)
 {
-  // BEGIN_SUB_TUTORIAL closed_gripper
+  // closed_gripper
   /* Add both finger joints of panda robot. */
   posture.joint_names.resize(2);
   posture.joint_names[0] = "gripper_top_to_finger1_joint";
@@ -38,7 +37,6 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].positions[0] = 0.01;
   posture.points[0].positions[1] = 0.01;
   posture.points[0].time_from_start = ros::Duration(0.5);
-  // END_SUB_TUTORIAL
 }
 
 void pick(moveit::planning_interface::MoveGroupInterface& move_group)
@@ -50,7 +48,6 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   // Setting grasp pose
   grasps[0].grasp_pose.header.frame_id = "robot_base_link";
   tf2::Quaternion orientation;
-  //tf2::Quaternion orientation(0,0,0,1);
 
   orientation.setEuler(-M_PI,0,M_PI/2);
   
@@ -59,17 +56,15 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   grasps[0].grasp_pose.pose.position.y = y_pos_obj;
   grasps[0].grasp_pose.pose.position.z = z_pos_obj+0.095;
 
-  // Setting pre-grasp approach
-  // ++++++++++++++++++++++++++
+
   /* Defined with respect to frame_id */
   grasps[0].pre_grasp_approach.direction.header.frame_id = "robot_base_link";
-  /* Direction is set as positive x axis */
+  /* Direction is set as negative x axis */
   grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
   grasps[0].pre_grasp_approach.min_distance = 0.095;
   grasps[0].pre_grasp_approach.desired_distance = 0.115;
 
-  // Setting post-grasp retreat
-  // ++++++++++++++++++++++++++
+
   /* Defined with respect to frame_id */
   grasps[0].post_grasp_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as positive z axis */
@@ -77,37 +72,26 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   grasps[0].post_grasp_retreat.min_distance = 0.095;
   grasps[0].post_grasp_retreat.desired_distance = 0.115;
 
-  // Setting posture of eef before grasp
-  // +++++++++++++++++++++++++++++++++++
+
   openGripper(grasps[0].pre_grasp_posture);
-  // END_SUB_TUTORIAL
 
-  // BEGIN_SUB_TUTORIAL pick2
-  // Setting posture of eef during grasp
-  // +++++++++++++++++++++++++++++++++++
+
+
   closedGripper(grasps[0].grasp_posture);
-  // END_SUB_TUTORIAL
 
-  // BEGIN_SUB_TUTORIAL pick3
-  // Set support surface as table1.
   move_group.setSupportSurfaceName("env_conveyor_to_visual_inspection");
   // Call pick to pick up the object using the grasps given
   move_group.pick("object", grasps);
-  // END_SUB_TUTORIAL
 }
 
 void place(moveit::planning_interface::MoveGroupInterface& group)
 {
-  // BEGIN_SUB_TUTORIAL place
-  // TODO(@ridhwanluthra) - Calling place function may lead to "All supplied place locations failed. Retrying last
-  // location in
-  // verbose mode." This is a known issue and we are working on fixing it. |br|
+ 
   // Create a vector of placings to be attempted, currently only creating single place location.
   std::vector<moveit_msgs::PlaceLocation> place_location;
   place_location.resize(1);
 
-  // Setting place location pose
-  // +++++++++++++++++++++++++++
+ 
   place_location[0].place_pose.header.frame_id = "robot_base_link";
   tf2::Quaternion orientation;
 
@@ -120,8 +104,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   place_location[0].place_pose.pose.position.y = y_pos_final;
   place_location[0].place_pose.pose.position.z = z_pos_final+0.0056;
 
-  // Setting pre-place approach
-  // ++++++++++++++++++++++++++
+  
   /* Defined with respect to frame_id */
   place_location[0].pre_place_approach.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative z axis */
@@ -129,8 +112,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   place_location[0].pre_place_approach.min_distance = 0.095;
   place_location[0].pre_place_approach.desired_distance = 0.115;
 
-  // Setting post-grasp retreat
-  // ++++++++++++++++++++++++++
+
   /* Defined with respect to frame_id */
   place_location[0].post_place_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative y axis */
@@ -138,24 +120,17 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   place_location[0].post_place_retreat.min_distance = 0.095;
   place_location[0].post_place_retreat.desired_distance = 0.115;
 
-  // Setting posture of eef after placing object
-  // +++++++++++++++++++++++++++++++++++++++++++
-  /* Similar to the pick case */
+
   openGripper(place_location[0].post_place_posture);
 
-  // Set support surface as table2.
   group.setSupportSurfaceName("env_conveyor_base");
   // Call place to place the object using the place locations given.
   group.place("object", place_location);
-  // END_SUB_TUTORIAL
 }
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
 {
-  // BEGIN_SUB_TUTORIAL table1
-  //
-  // Creating Environment
-  // ^^^^^^^^^^^^^^^^^^^^
+
   // Create vector to hold 3 collision objects.
   std::vector<moveit_msgs::CollisionObject> collision_objects;
   collision_objects.resize(1);
@@ -176,10 +151,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
   collision_objects[0].primitive_poses[0].position.x = x_pos_obj;
   collision_objects[0].primitive_poses[0].position.y = y_pos_obj;
   collision_objects[0].primitive_poses[0].position.z = z_pos_obj;
-  // collision_objects[0].primitive_poses[0].position.x = x_pos_final;
-  // collision_objects[0].primitive_poses[0].position.y = y_pos_final;
-  // collision_objects[0].primitive_poses[0].position.z = z_pos_final;
-  // END_SUB_TUTORIAL
+
 
   collision_objects[0].operation = collision_objects[0].APPEND;
 

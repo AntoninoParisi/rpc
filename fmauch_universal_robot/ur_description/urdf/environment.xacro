@@ -7,7 +7,7 @@
   <link name="${prefix}table_base">
     <visual>
       <geometry>
-        <!-- <mesh filename="package://ur_description/meshes/ur5e/visual/table.stl" scale="0.01 0.01 0.021"/> -->
+        <mesh filename="package://ur_description/meshes/ur5e/visual/table.stl"/>
         <box size="0.66 0.66 0.05"/>
       </geometry>
       <origin xyz="0 0 0" rpy='0 0 0'/>
@@ -30,8 +30,8 @@
   <link name="${prefix}conveyor_base">
     <visual>
       <geometry>
-        <box size="2 0.25 0.05"/>
-        <!-- <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.03 0.01 0.01"/> -->
+        <!-- <box size="2 0.25 0.05"/> -->
+        <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_ice.stl" />
       </geometry>
       <material name="green">
           <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
@@ -43,8 +43,8 @@
   <link name="${prefix}conveyor_to_visual_inspection">
     <visual>
         <geometry>
-          <box size="1 0.25 0.05"/>
-          <!-- <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_test.stl" scale="0.01 0.01 0.01"/> -->
+          <!-- <box size="1 0.25 0.05"/> -->
+          <mesh filename="package://ur_description/meshes/ur5e/visual/conveyor_iceLab_visual.stl"/>
         </geometry>
       <material name="green">
           <color rgba="${8/255} ${238/255} ${1/255} 1.0"/>
@@ -77,6 +77,31 @@
     </visual> 
   </link>
 
+  <link name="${prefix}pick_slab_visual">
+    <visual>
+      <geometry>
+        <box size="0.25 0.25 0.03"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
+      <material name="orange">
+          <color rgba="${255/255} ${84/255} ${1/255} 1.0"/>
+      </material>
+    </visual> 
+  </link>
+
+
+  <link name="${prefix}pick_slab">
+    <visual>
+      <geometry>
+        <box size="0.25 0.25 0.03"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy='0 0 0'/>
+      <material name="orange">
+          <color rgba="${255/255} ${84/255} ${1/255} 1.0"/>
+      </material>
+    </visual> 
+  </link>
+
 
 
 
@@ -98,6 +123,18 @@
     <child link="${prefix}conveyor_to_visual_inspection"/>
      <origin xyz="0.25 -0.45 0"  rpy='0 0 0'/>
   </joint>
+
+  <joint name="${prefix}visual_slab_joint" type="fixed">
+    <parent link="${prefix}conveyor_to_visual_inspection"/>
+    <child link="${prefix}pick_slab_visual"/>
+     <origin xyz="0 0 0.01"  rpy='0 0 0'/>
+  </joint>
+  <joint name="${prefix}pick_slab_joint" type="fixed">
+    <parent link="${prefix}conveyor_base"/>
+    <child link="${prefix}pick_slab"/>
+     <origin xyz="0.1 0 0.01"  rpy='0 0 0'/>
+  </joint>
+
   <joint name="${prefix}wall_1_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_1"/>
