@@ -57,26 +57,26 @@ int main(int argc, char** argv)
     close gripper
   */
 
-  static const std::string PLANNING_GROUP_GRIPPER = "gripper";
-  moveit::planning_interface::MoveGroupInterface move_group_arm_gripper(PLANNING_GROUP_GRIPPER);
-  moveit::planning_interface::PlanningSceneInterface planning_scene_interface_gripper;
-  const moveit::core::JointModelGroup* joint_model_group_gripper =
-  move_group_arm_gripper.getCurrentState()->getJointModelGroup(PLANNING_GROUP_GRIPPER);
+  // static const std::string PLANNING_GROUP_GRIPPER = "gripper";
+  // moveit::planning_interface::MoveGroupInterface move_group_arm_gripper(PLANNING_GROUP_GRIPPER);
+  // moveit::planning_interface::PlanningSceneInterface planning_scene_interface_gripper;
+  // const moveit::core::JointModelGroup* joint_model_group_gripper =
+  // move_group_arm_gripper.getCurrentState()->getJointModelGroup(PLANNING_GROUP_GRIPPER);
 
-  moveit::planning_interface::MoveGroupInterface::Plan gripper_close;
+  // moveit::planning_interface::MoveGroupInterface::Plan gripper_close;
 
-  std::vector<double> joint_group_positions_gripper;
-  moveit::core::RobotStatePtr current_state_gripper = move_group_arm_gripper.getCurrentState();
-  current_state_gripper->copyJointGroupPositions(joint_model_group_gripper, joint_group_positions_gripper);
+  // std::vector<double> joint_group_positions_gripper;
+  // moveit::core::RobotStatePtr current_state_gripper = move_group_arm_gripper.getCurrentState();
+  // current_state_gripper->copyJointGroupPositions(joint_model_group_gripper, joint_group_positions_gripper);
 
-  joint_group_positions_gripper[0] = 0.032;
-  joint_group_positions_gripper[1] = 0.032;
-  move_group_arm_gripper.setJointValueTarget(joint_group_positions_gripper);
-  auto success = (move_group_arm_gripper.plan(gripper_close) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-  ROS_INFO_NAMED("GlueSealing", "Closing the gripper: %s", success ? "SUCCESS" : "FAILED");
-  move_group_arm_gripper.execute(gripper_close);
+  // joint_group_positions_gripper[0] = 0.032;
+  // joint_group_positions_gripper[1] = 0.032;
+  // move_group_arm_gripper.setJointValueTarget(joint_group_positions_gripper);
+  // auto success = (move_group_arm_gripper.plan(gripper_close) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+  // ROS_INFO_NAMED("GlueSealing", "Closing the gripper: %s", success ? "SUCCESS" : "FAILED");
+  // move_group_arm_gripper.execute(gripper_close);
 
-  visual_tools.prompt("Press 'next' to start the homework");
+  //visual_tools.prompt("Press 'next' to start the homework");
 
  
   std::vector<geometry_msgs::Pose> waypoints;
@@ -169,6 +169,8 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
   visual_tools.trigger();
   move_group_arm.execute(trajectory);
+  move_group_arm.move();
+  std::cout << trajectory.joint_trajectory.points[0] << std::endl;
 
   
 
