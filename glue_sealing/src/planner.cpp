@@ -20,7 +20,7 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   const moveit::core::JointModelGroup* joint_model_group =
       move_group_arm.getCurrentState()->getJointModelGroup(PLANNING_GROUP_ARM);
-
+  move_group_arm.setPlannerId("RRTConnect");
 
 
 

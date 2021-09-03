@@ -169,6 +169,8 @@ int main(int argc, char** argv)
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("arm");
   group.setPlanningTime(30.0);
+  group.setPlannerId("RRTConnect");
+
   std::cout << "stato : " << group.getPlannerId();
   addCollisionObjects(planning_scene_interface);
   ROS_INFO("Before pick");
