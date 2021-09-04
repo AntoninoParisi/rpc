@@ -56,7 +56,7 @@
   <link name="${prefix}wall_1">
     <visual>
       <geometry>
-        <box size='4 0.05 1.5'/>
+        <box size='4 0.05 4.5'/>
       </geometry>
       <origin xyz="0 0 0" rpy='0 0 0'/>
       <material name="yellow">
@@ -68,7 +68,7 @@
   <link name="${prefix}wall_2">
     <visual>
       <geometry>
-        <box size='0.05 0.85 1.5'/>
+        <box size='0.05 0.85 4.5'/>
       </geometry>
       <origin xyz="0 0 0" rpy='0 0 0'/>
       <material name="yellow">
@@ -138,12 +138,12 @@
   <joint name="${prefix}wall_1_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_1"/>
-    <origin xyz="0.25 0.6 0"  rpy='0 0 0'/>
+    <origin xyz="0.25 0.3 0"  rpy='0 0 0'/>
   </joint>
   <joint name="${prefix}wall_2_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_2"/>
-    <origin xyz="0.4 0.12 0"  rpy='0 0 0'/>
+    <origin xyz="0.25 0.25 0"  rpy='0 0 0'/>
   </joint>
 </xacro:macro>
       

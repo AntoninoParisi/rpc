@@ -86,7 +86,6 @@ int main(int argc, char** argv)
   moveit_msgs::RobotTrajectory trajectory;
   const double jump_threshold = 0.0;
   const double eef_step = 0.01;
-  double fraction = move_group_arm.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
   
 
   current_pose = move_group_arm.getCurrentPose().pose;
@@ -99,7 +98,7 @@ int main(int argc, char** argv)
   geometry_msgs::Pose a_vertex = current_pose;
   a_vertex.position.x = 0.2;
   a_vertex.position.y = -0.4;
-  a_vertex.position.z = 0.15;
+  a_vertex.position.z = 0.25;
   a_vertex.orientation.x = q.x();
   a_vertex.orientation.y = q.y();
   a_vertex.orientation.z = q.z();
@@ -110,7 +109,7 @@ int main(int argc, char** argv)
   geometry_msgs::Pose b_vertex = current_pose;
   b_vertex.position.x = 0.3;
   b_vertex.position.y = -0.4;
-  b_vertex.position.z = 0.15;
+  b_vertex.position.z = 0.25;
   b_vertex.orientation.x = q.x();
   b_vertex.orientation.y = q.y();
   b_vertex.orientation.z = q.z();
@@ -120,7 +119,7 @@ int main(int argc, char** argv)
   geometry_msgs::Pose c_vertex = current_pose;
   c_vertex.position.x = 0.3;
   c_vertex.position.y = -0.55;
-  c_vertex.position.z = 0.15;
+  c_vertex.position.z = 0.25;
   c_vertex.orientation.x = q.x();
   c_vertex.orientation.y = q.y();
   c_vertex.orientation.z = q.z();
@@ -130,7 +129,7 @@ int main(int argc, char** argv)
   geometry_msgs::Pose x_vertex = current_pose;
   x_vertex.position.x = 0.25;
   x_vertex.position.y = -0.45;
-  x_vertex.position.z = 0.15;
+  x_vertex.position.z = 0.25;
   x_vertex.orientation.x = q.x();
   x_vertex.orientation.y = q.y();
   x_vertex.orientation.z = q.z();
@@ -141,7 +140,7 @@ int main(int argc, char** argv)
   geometry_msgs::Pose d_vertex = current_pose;
   d_vertex.position.x = 0.2;
   d_vertex.position.y = -0.55;
-  d_vertex.position.z = 0.15;
+  d_vertex.position.z = 0.25;
   d_vertex.orientation.x = q.x();
   d_vertex.orientation.y = q.y();
   d_vertex.orientation.z = q.z();
@@ -150,27 +149,55 @@ int main(int argc, char** argv)
 
   move_group_arm.setPoseTarget(a_vertex);
   move_group_arm.move();
+  
+  ros::WallDuration(3.0).sleep();
 
-  waypoints.clear();
-  waypoints.push_back(a_vertex);
-  waypoints.push_back(b_vertex);
-  waypoints.push_back(x_vertex);
-  waypoints.push_back(c_vertex);
-  waypoints.push_back(d_vertex);
-  waypoints.push_back(a_vertex);
-
-
-  fraction = move_group_arm.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-  ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
-  visual_tools.deleteAllMarkers();
-  visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
-  visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
-  for (std::size_t i = 0; i < waypoints.size(); ++i)
-    visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
-  visual_tools.trigger();
-  move_group_arm.execute(trajectory);
+  move_group_arm.setPoseTarget(b_vertex);
   move_group_arm.move();
-  std::cout << trajectory.joint_trajectory.points[0] << std::endl;
+
+  ros::WallDuration(3.0).sleep();
+
+  move_group_arm.setPoseTarget(x_vertex);
+  move_group_arm.move();
+
+  ros::WallDuration(3.0).sleep();
+
+  move_group_arm.setPoseTarget(c_vertex);
+  move_group_arm.move();
+
+  ros::WallDuration(3.0).sleep();
+
+
+  move_group_arm.setPoseTarget(d_vertex);
+  move_group_arm.move();
+
+  ros::WallDuration(3.0).sleep();
+
+
+  move_group_arm.setPoseTarget(a_vertex);
+  move_group_arm.move();
+
+
+  // waypoints.clear();
+  // waypoints.push_back(a_vertex);
+  // waypoints.push_back(b_vertex);
+  // waypoints.push_back(x_vertex);
+  // waypoints.push_back(c_vertex);
+  // waypoints.push_back(d_vertex);
+  // waypoints.push_back(a_vertex);
+
+
+  // fraction = move_group_arm.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+  // ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
+  // visual_tools.deleteAllMarkers();
+  // visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
+  // visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
+  // for (std::size_t i = 0; i < waypoints.size(); ++i)
+  //   visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
+  // visual_tools.trigger();
+  // move_group_arm.execute(trajectory);
+  // move_group_arm.move();
+  // std::cout << trajectory.joint_trajectory.points[0] << std::endl;
 
   
 

@@ -49,21 +49,27 @@
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="ee" parent_link="robot_wrist_3_link" group="gripper" parent_group="arm" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
-    <virtual_joint name="virtual_jj" type="fixed" parent_frame="env_table_base" child_link="robot_base_link" />
+    <virtual_joint name="virtual_jj" type="fixed" parent_frame="robot_wrist_3_link" child_link="robot_tool0" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="env_conveyor_base" link2="env_conveyor_to_visual_inspection" reason="Never" />
-    <disable_collisions link1="env_conveyor_base" link2="env_floor" reason="Never" />
+    <disable_collisions link1="env_conveyor_base" link2="env_conveyor_to_visual_inspection" reason="Default" />
+    <disable_collisions link1="env_conveyor_base" link2="env_floor" reason="Default" />
+    <disable_collisions link1="env_conveyor_base" link2="env_pick_slab" reason="Adjacent" />
+    <disable_collisions link1="env_conveyor_base" link2="env_pick_slab_visual" reason="Never" />
     <disable_collisions link1="env_conveyor_base" link2="env_table_base" reason="Adjacent" />
     <disable_collisions link1="env_conveyor_base" link2="env_wall_1" reason="Default" />
     <disable_collisions link1="env_conveyor_base" link2="env_wall_2" reason="Never" />
     <disable_collisions link1="env_conveyor_base" link2="robot_base_link_inertia" reason="Never" />
     <disable_collisions link1="env_conveyor_base" link2="robot_shoulder_link" reason="Never" />
-    <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_floor" reason="Never" />
+    <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_floor" reason="Default" />
+    <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_pick_slab" reason="Never" />
+    <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_pick_slab_visual" reason="Adjacent" />
     <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_table_base" reason="Adjacent" />
     <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_wall_1" reason="Never" />
     <disable_collisions link1="env_conveyor_to_visual_inspection" link2="env_wall_2" reason="Never" />
     <disable_collisions link1="env_conveyor_to_visual_inspection" link2="robot_base_link_inertia" reason="Never" />
     <disable_collisions link1="env_conveyor_to_visual_inspection" link2="robot_shoulder_link" reason="Never" />
+    <disable_collisions link1="env_floor" link2="env_pick_slab" reason="Never" />
+    <disable_collisions link1="env_floor" link2="env_pick_slab_visual" reason="Never" />
     <disable_collisions link1="env_floor" link2="env_table_base" reason="Adjacent" />
     <disable_collisions link1="env_floor" link2="env_wall_1" reason="Default" />
     <disable_collisions link1="env_floor" link2="env_wall_2" reason="Default" />
@@ -71,12 +77,22 @@
     <disable_collisions link1="env_floor" link2="robot_forearm_link" reason="Never" />
     <disable_collisions link1="env_floor" link2="robot_shoulder_link" reason="Never" />
     <disable_collisions link1="env_floor" link2="robot_upper_arm_link" reason="Never" />
-    <disable_collisions link1="env_floor" link2="robot_wrist_1_link" reason="Never" />
+    <disable_collisions link1="env_pick_slab" link2="env_pick_slab_visual" reason="Never" />
+    <disable_collisions link1="env_pick_slab" link2="env_table_base" reason="Default" />
+    <disable_collisions link1="env_pick_slab" link2="env_wall_1" reason="Never" />
+    <disable_collisions link1="env_pick_slab" link2="env_wall_2" reason="Never" />
+    <disable_collisions link1="env_pick_slab" link2="robot_base_link_inertia" reason="Never" />
+    <disable_collisions link1="env_pick_slab" link2="robot_shoulder_link" reason="Never" />
+    <disable_collisions link1="env_pick_slab_visual" link2="env_table_base" reason="Default" />
+    <disable_collisions link1="env_pick_slab_visual" link2="env_wall_1" reason="Never" />
+    <disable_collisions link1="env_pick_slab_visual" link2="env_wall_2" reason="Never" />
+    <disable_collisions link1="env_pick_slab_visual" link2="robot_base_link_inertia" reason="Never" />
+    <disable_collisions link1="env_pick_slab_visual" link2="robot_shoulder_link" reason="Never" />
     <disable_collisions link1="env_table_base" link2="env_wall_1" reason="Adjacent" />
     <disable_collisions link1="env_table_base" link2="env_wall_2" reason="Adjacent" />
     <disable_collisions link1="env_table_base" link2="robot_base_link_inertia" reason="Adjacent" />
     <disable_collisions link1="env_table_base" link2="robot_shoulder_link" reason="Never" />
-    <disable_collisions link1="env_wall_1" link2="env_wall_2" reason="Never" />
+    <disable_collisions link1="env_wall_1" link2="env_wall_2" reason="Default" />
     <disable_collisions link1="gripper_back" link2="gripper_base_link" reason="Adjacent" />
     <disable_collisions link1="gripper_back" link2="gripper_finger1" reason="Never" />
     <disable_collisions link1="gripper_back" link2="gripper_finger2" reason="Never" />

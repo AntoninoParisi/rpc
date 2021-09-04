@@ -48,6 +48,65 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].time_from_start = ros::Duration(0.5);
 }
 
+
+void go_to_pick_place(moveit::planning_interface::MoveGroupInterface &group){
+
+
+
+    group.setPlannerId("RRTConnect");
+
+
+    tf2::Quaternion q;
+
+    q.setRPY(M_PI,0,M_PI);
+
+    geometry_msgs::Pose current_pose;
+
+    current_pose = group.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
+
+
+
+    geometry_msgs::Pose a_vertex = current_pose;
+
+
+    // a_vertex.position.x = -0.266252;
+    // a_vertex.position.y =  -0.473848;
+    // a_vertex.position.z =  0.247984;
+    // a_vertex.orientation.x =  0.699999;
+    // a_vertex.orientation.y =-0.71396;
+    // a_vertex.orientation.z =  0.0161121;
+    // a_vertex.orientation.w = 0.00200029;
+
+
+    // group.setPoseTarget(a_vertex);
+    // group.move();
+
+
+
+
+
+   
+    //  a_vertex.position.x =0.255531;
+    // a_vertex.position.y = -0.509722;
+    // a_vertex.position.z =  0.155057;
+    // a_vertex.orientation.x =   -0.705224;
+    // a_vertex.orientation.y =-0.708933;
+    // a_vertex.orientation.z = -0.00825431;
+    // a_vertex.orientation.w = 0.00211024;
+
+
+    // group.setPoseTarget(a_vertex);
+    // group.move();
+
+    // ros::WallDuration(3.0).sleep();
+
+
+
+
+  }
+
 void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 {
   // pick1
@@ -56,9 +115,10 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
   // Setting grasp pose
   grasps[0].grasp_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation;
+  tf2::Quaternion orientation(0.697418,0.716356,0.00593852,0.0201876);
 
-  orientation.setEuler(-M_PI,0,M_PI/2);
+  
+
   
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = x_pos_obj;
@@ -69,14 +129,14 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
   /* Defined with respect to frame_id */
   grasps[0].pre_grasp_approach.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative x axis */
-  grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
+  // grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
   grasps[0].pre_grasp_approach.min_distance = 0.095;
   grasps[0].pre_grasp_approach.desired_distance = 0.115;
 
   /* Defined with respect to frame_id */
   grasps[0].post_grasp_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as positive z axis */
-  grasps[0].post_grasp_retreat.direction.vector.z = 1.0;
+  // grasps[0].post_grasp_retreat.direction.vector.z = 1.0;
   grasps[0].post_grasp_retreat.min_distance = 0.095;
   grasps[0].post_grasp_retreat.desired_distance = 0.115;
 
@@ -100,9 +160,8 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
 
   place_location[0].place_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation;
+  tf2::Quaternion orientation(0.697418,0.716356,0.00593852,0.0201876);
 
-  orientation.setEuler(0,0,M_PI/2);
   
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
@@ -115,7 +174,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   /* Defined with respect to frame_id */
   place_location[0].pre_place_approach.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative z axis */
-  place_location[0].pre_place_approach.direction.vector.z = -1.0;
+  // place_location[0].pre_place_approach.direction.vector.z = -1.0;
   place_location[0].pre_place_approach.min_distance = 0.095;
   place_location[0].pre_place_approach.desired_distance = 0.115;
 
@@ -123,7 +182,7 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
   /* Defined with respect to frame_id */
   place_location[0].post_place_retreat.direction.header.frame_id = "robot_base_link";
   /* Direction is set as negative x axis */
-  place_location[0].post_place_retreat.direction.vector.x = -1.0;
+  // place_location[0].post_place_retreat.direction.vector.x = -1.0;
   place_location[0].post_place_retreat.min_distance = 0.095;
   place_location[0].post_place_retreat.desired_distance = 0.115;
 
@@ -167,136 +226,61 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
 }
 
 
-void inspection(){
+void inspection(moveit::planning_interface::MoveGroupInterface &group){
 
-    namespace rvt = rviz_visual_tools;
+    
+    group.setPlannerId("RRTConnect");
 
-    moveit_msgs::RobotTrajectory trajectory;
-    const double jump_threshold = 0.0;
-    const double eef_step = 0.01;
-
-    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-
-    static const std::string PLANNING_GROUP_ARM = "arm";
-    moveit::planning_interface::MoveGroupInterface move_group_arm(PLANNING_GROUP_ARM);
-    const moveit::core::JointModelGroup* joint_model_group = move_group_arm.getCurrentState()->getJointModelGroup(PLANNING_GROUP_ARM);
-    moveit::planning_interface::MoveGroupInterface::Plan my_plan;
-    geometry_msgs::Pose target_pose;
-    std::vector<geometry_msgs::Pose> waypoints; 
-    geometry_msgs::Pose current_pose;
-    moveit_visual_tools::MoveItVisualTools visual_tools("world");
-    std::vector<double> joint_group_positions;
-    moveit::core::RobotStatePtr current_state = move_group_arm.getCurrentState();
-    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
-    move_group_arm.setJointValueTarget(joint_group_positions);
-    auto success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Returning to home position: %s", success ? "SUCCESS" : "FAILED");
-    move_group_arm.execute(my_plan);
-    Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
-
-
-
-    current_pose = move_group_arm.getCurrentPose().pose;
 
     tf2::Quaternion q;
 
-    q.setEuler(-M_PI,0,M_PI/2);
+    q.setRPY(M_PI,0,M_PI);
 
+    geometry_msgs::Pose current_pose;
+
+    current_pose = group.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
+
+
+
+    
+
+    //rotation of wrist 1 & 2 
 
     geometry_msgs::Pose a_vertex = current_pose;
-    a_vertex.position.x = x_pos_final;
-    a_vertex.position.y = y_pos_final;
-    a_vertex.position.z = z_pos_final;
-    a_vertex.orientation.x = q.x();
-    a_vertex.orientation.y = q.y();
-    a_vertex.orientation.z = q.z();
-    a_vertex.orientation.w = q.w();
 
-    q.setRPY(M_PI/2,0,M_PI/2);
-
-
-    geometry_msgs::Pose b_vertex = current_pose;
-    b_vertex.position.x = x_pos_final;
-    b_vertex.position.y = y_pos_final;
-    b_vertex.position.z = z_pos_final;
-    b_vertex.orientation.x = q.x();
-    b_vertex.orientation.y = q.y();
-    b_vertex.orientation.z = q.z();
-    b_vertex.orientation.w = q.w();
-
-    
+    a_vertex.position.x = 0.378994;
+    a_vertex.position.y =  -0.441776;
+    a_vertex.position.z =  0.198967;
+    a_vertex.orientation.x =  0.486816;
+    a_vertex.orientation.y =0.510752;
+    a_vertex.orientation.z =  0.50263;
+    a_vertex.orientation.w = 0.499505;
 
 
-    move_group_arm.setPoseTarget(a_vertex);
-    move_group_arm.move();
-    //visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-
-    waypoints.clear();
-    waypoints.push_back(a_vertex);
-    waypoints.push_back(b_vertex);
-
-    // waypoints.push_back(e_vertex);
+    group.setPoseTarget(a_vertex);
+    group.move();
 
 
 
 
-    double fraction = move_group_arm.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
-    ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% acheived)", fraction * 100.0);
-    visual_tools.deleteAllMarkers();
-    visual_tools.publishText(text_pose, "Cartesian Path", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishPath(waypoints, rvt::LIME_GREEN, rvt::SMALL);
-    for (std::size_t i = 0; i < waypoints.size(); ++i)
-        visual_tools.publishAxisLabeled(waypoints[i], "pt" + std::to_string(i), rvt::SMALL);
-    visual_tools.trigger();
-    //visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
-    move_group_arm.execute(trajectory);
-
-
-    
+    // rotation of wrist 3 in position B
 
 
 
-    current_state = move_group_arm.getCurrentState();
-    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
-    for(int i=0;i<6;i++)
-    {
-        //joint_group_positions[i] = real_joint_state_vect[i];
-        ROS_INFO("Joint %i : %.3f\n",i,joint_group_positions[i]);
-
-    }   
-    
-    joint_group_positions[5] = M_PI;
-    move_group_arm.setJointValueTarget(joint_group_positions);
-    success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Upper inspection: %s", success ? "SUCCESS" : "FAILED");
-    move_group_arm.execute(my_plan);
+    a_vertex.position.x = 0.378994;
+    a_vertex.position.y =  -0.441776;
+    a_vertex.position.z =  0.198967;
+    a_vertex.orientation.x =  -0.522272;
+    a_vertex.orientation.y = 0.473829;
+    a_vertex.orientation.z =  -0.511977;
+    a_vertex.orientation.w = 0.490508;
 
 
-    ros::WallDuration(1.0).sleep();
-
-    
-    joint_group_positions[5] = -M_PI;
-    move_group_arm.setJointValueTarget(joint_group_positions);
-    success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Lower inspection: %s", success ? "SUCCESS" : "FAILED");
-    move_group_arm.execute(my_plan);
-
-
-    ros::WallDuration(1.0).sleep();
-    
-    joint_group_positions[2] = 1.3109108405586278;
-    joint_group_positions[1] = -1.6298729451988205;
-    joint_group_positions[0] = -2.881820193359532;
-    joint_group_positions[3] =  0.07078617730403819;
-    joint_group_positions[4] =  1.7008332839692943;
-    joint_group_positions[5] =  1.4926065732611808 ;
-
- 
-    move_group_arm.setJointValueTarget(joint_group_positions);
-    success = (move_group_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-    ROS_INFO_NAMED("HomeworkB2", "Back to position before-place: %s", success ? "SUCCESS" : "FAILED");
-    move_group_arm.execute(my_plan);
+    group.setPoseTarget(a_vertex);
+    group.move();
 
 
 }
@@ -313,7 +297,7 @@ int main(int argc, char** argv)
     ros::WallDuration(1.0).sleep();
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
     moveit::planning_interface::MoveGroupInterface group("arm");
-    group.setPlanningTime(30.0);
+    group.setPlanningTime(5.0);
     group.setPlannerId("RRTConnect");
     std::cout << "stato : " << group.getPlannerId();
     addCollisionObjects(planning_scene_interface);
@@ -322,26 +306,28 @@ int main(int argc, char** argv)
 
 
 
+    go_to_pick_place(group);
 
-    ros::WallDuration(1.0).sleep();
+
+    // ros::WallDuration(1.0).sleep();
 
 
-    ROS_INFO("Picking...");
-    pick(group);
-    ROS_INFO("After pick");
+    // ROS_INFO("Picking...");
+    // pick(group);
+    // ROS_INFO("After pick");
 
-    ros::WallDuration(1.0).sleep();
+    // ros::WallDuration(1.0).sleep();
 
-    ROS_INFO("inspection...");
+    // ROS_INFO("inspection...");
 
-        inspection();
+    // inspection(group);
 
-    ros::WallDuration(1.0).sleep();
-    ROS_INFO("Placing...");
+    // ros::WallDuration(1.0).sleep();
+    // ROS_INFO("Placing...");
 
-    place(group);
+    // place(group);
 
-    ROS_INFO("Shutting down the whole program...");
+    // ROS_INFO("Shutting down the whole program...");
 
 
 

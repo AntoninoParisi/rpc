@@ -39,6 +39,126 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   posture.points[0].time_from_start = ros::Duration(0.5);
 }
 
+
+
+  void go_to_pick_place(moveit::planning_interface::MoveGroupInterface &group){
+
+
+
+    group.setPlannerId("RRTConnect");
+
+
+    tf2::Quaternion q;
+
+    q.setRPY(M_PI,0,M_PI);
+
+    geometry_msgs::Pose current_pose;
+
+    current_pose = group.getCurrentPose().pose;
+
+    // std::cout << current_pose << std::endl;
+
+
+
+    geometry_msgs::Pose a_vertex = current_pose;
+
+
+    a_vertex.position.x = -0.266252;
+    a_vertex.position.y =  -0.473848;
+    a_vertex.position.z =  0.247984;
+    a_vertex.orientation.x =  0.699999;
+    a_vertex.orientation.y =-0.71396;
+    a_vertex.orientation.z =  0.0161121;
+    a_vertex.orientation.w = 0.00200029;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+
+
+
+
+   
+     a_vertex.position.x =0.255531;
+    a_vertex.position.y = -0.509722;
+    a_vertex.position.z =  0.155057;
+    a_vertex.orientation.x =   -0.705224;
+    a_vertex.orientation.y =-0.708933;
+    a_vertex.orientation.z = -0.00825431;
+    a_vertex.orientation.w = 0.00211024;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+    ros::WallDuration(3.0).sleep();
+
+
+
+
+
+  }
+
+
+  void go_to_release_place(moveit::planning_interface::MoveGroupInterface &group){
+
+
+
+    group.setPlannerId("RRTConnect");
+
+
+    tf2::Quaternion q;
+
+    q.setRPY(M_PI,0,M_PI);
+
+    geometry_msgs::Pose current_pose;
+
+    current_pose = group.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
+
+
+
+    geometry_msgs::Pose a_vertex = current_pose;
+
+    a_vertex.position.x = -0.266252;
+    a_vertex.position.y =  -0.473848;
+    a_vertex.position.z =  0.247984;
+    a_vertex.orientation.x =  0.699999;
+    a_vertex.orientation.y =-0.71396;
+    a_vertex.orientation.z =  0.0161121;
+    a_vertex.orientation.w = 0.00200029;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+
+
+
+
+    a_vertex.position.x = -0.435426;
+    a_vertex.position.y =  -0.109913;
+    a_vertex.position.z =  0.153226;
+    a_vertex.orientation.x =  0.676498;
+    a_vertex.orientation.y =0.736243;
+    a_vertex.orientation.z = -0.00119716;
+    a_vertex.orientation.w =0.0171676;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+    ros::WallDuration(3.0).sleep();
+
+
+
+
+
+  }
+
+
 void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 {
   // pick1
@@ -47,10 +167,8 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
   // Setting grasp pose
   grasps[0].grasp_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation;
+  tf2::Quaternion orientation(-0.705224,-0.708933,-0.00825431,0.00211024);
 
-  orientation.setEuler(-M_PI,0,M_PI/2);
-  
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = x_pos_obj;
   grasps[0].grasp_pose.pose.position.y = y_pos_obj;
@@ -93,16 +211,17 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
  
   place_location[0].place_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation;
+  tf2::Quaternion orientation(0.676498,0.736243,-0.00119716,0.0171676);
 
-  orientation.setEuler(0,0,-M_PI/2);
+
+
   
   place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
   /* While placing it is the exact location of the center of the object. */
   place_location[0].place_pose.pose.position.x = x_pos_final;
   place_location[0].place_pose.pose.position.y = y_pos_final;
-  place_location[0].place_pose.pose.position.z = z_pos_final+0.0056;
+  place_location[0].place_pose.pose.position.z = z_pos_final+0.095;
 
   
   /* Defined with respect to frame_id */
@@ -168,17 +287,34 @@ int main(int argc, char** argv)
   ros::WallDuration(1.0).sleep();
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   moveit::planning_interface::MoveGroupInterface group("arm");
-  group.setPlanningTime(30.0);
+  group.setPlanningTime(5.0);
   group.setPlannerId("RRTConnect");
 
   std::cout << "stato : " << group.getPlannerId();
   addCollisionObjects(planning_scene_interface);
+
+  // go to position A near the end of the small conveyor belt
+  
+
+
+
+
   ROS_INFO("Before pick");
+
+  go_to_pick_place(group);
+
+
+  ROS_INFO_NAMED("GlueSealing", "Available Planning Groups:");
+  std::copy(group.getJointModelGroupNames().begin(),
+            group.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
   // Wait a bit for ROS things to initialize
   ros::WallDuration(1.0).sleep();
   ROS_INFO("Picking...");
   pick(group);
   ROS_INFO("After pick");
+
+    go_to_release_place(group);
+
 
   ros::WallDuration(1.0).sleep();
   ROS_INFO("Placing...");
