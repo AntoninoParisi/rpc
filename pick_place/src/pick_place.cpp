@@ -48,9 +48,6 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
     group.setPlannerId("RRTConnect");
 
 
-    tf2::Quaternion q;
-
-    q.setRPY(M_PI,0,M_PI);
 
     geometry_msgs::Pose current_pose;
 
@@ -80,8 +77,8 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 
 
    
-     a_vertex.position.x =0.255531;
-    a_vertex.position.y = -0.509722;
+     a_vertex.position.x = x_pos_obj+0.05;
+    a_vertex.position.y =  y_pos_obj-0.095;
     a_vertex.position.z =  0.155057;
     a_vertex.orientation.x =   -0.705224;
     a_vertex.orientation.y =-0.708933;
@@ -108,9 +105,6 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
     group.setPlannerId("RRTConnect");
 
 
-    tf2::Quaternion q;
-
-    q.setRPY(M_PI,0,M_PI);
 
     geometry_msgs::Pose current_pose;
 
@@ -138,8 +132,8 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 
 
 
-    a_vertex.position.x = -0.435426;
-    a_vertex.position.y =  -0.109913;
+    a_vertex.position.x = x_pos_final;
+    a_vertex.position.y = y_pos_final;
     a_vertex.position.z =  0.153226;
     a_vertex.orientation.x =  0.676498;
     a_vertex.orientation.y =0.736243;
@@ -162,50 +156,75 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 {
   // pick1
-  std::vector<moveit_msgs::Grasp> grasps;
-  grasps.resize(1);
+  // std::vector<moveit_msgs::Grasp> grasps;
+  // grasps.resize(1);
 
-  // Setting grasp pose
-  grasps[0].grasp_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation;
-  auto tmp_or = move_group.getCurrentPose().pose.orientation;
+  // // Setting grasp pose
+  // grasps[0].grasp_pose.header.frame_id = "robot_base_link";
+  // tf2::Quaternion orientation;
+  // auto tmp_or = move_group.getCurrentPose().pose.orientation;
 
-  orientation.setX(tmp_or.x);
-  orientation.setY(tmp_or.y);
-  orientation.setZ(tmp_or.z);
-  orientation.setW(tmp_or.w);
+  // orientation.setX(tmp_or.x);
+  // orientation.setY(tmp_or.y);
+  // orientation.setZ(tmp_or.z);
+  // orientation.setW(tmp_or.w);
 
-  grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
-  grasps[0].grasp_pose.pose.position.x = x_pos_obj;
-  grasps[0].grasp_pose.pose.position.y = y_pos_obj;
-  grasps[0].grasp_pose.pose.position.z = z_pos_obj+0.095;
-
-
-  /* Defined with respect to frame_id */
-  grasps[0].pre_grasp_approach.direction.header.frame_id = "robot_base_link";
-  /* Direction is set as negative x axis */
-  grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
-  grasps[0].pre_grasp_approach.min_distance = 0.095;
-  grasps[0].pre_grasp_approach.desired_distance = 0.115;
+  // grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
+  // grasps[0].grasp_pose.pose.position.x = x_pos_obj;
+  // grasps[0].grasp_pose.pose.position.y = y_pos_obj;
+  // grasps[0].grasp_pose.pose.position.z = z_pos_obj+0.095;
 
 
-  /* Defined with respect to frame_id */
-  grasps[0].post_grasp_retreat.direction.header.frame_id = "robot_base_link";
-  /* Direction is set as positive z axis */
-  grasps[0].post_grasp_retreat.direction.vector.z = 1.0;
-  grasps[0].post_grasp_retreat.min_distance = 0.095;
-  grasps[0].post_grasp_retreat.desired_distance = 0.115;
+  // /* Defined with respect to frame_id */
+  // grasps[0].pre_grasp_approach.direction.header.frame_id = "robot_base_link";
+  // /* Direction is set as negative x axis */
+  // grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
+  // grasps[0].pre_grasp_approach.min_distance = 0.095;
+  // grasps[0].pre_grasp_approach.desired_distance = 0.115;
 
 
-  openGripper(grasps[0].pre_grasp_posture);
+  // /* Defined with respect to frame_id */
+  // grasps[0].post_grasp_retreat.direction.header.frame_id = "robot_base_link";
+  // /* Direction is set as positive z axis */
+  // grasps[0].post_grasp_retreat.direction.vector.z = 1.0;
+  // grasps[0].post_grasp_retreat.min_distance = 0.095;
+  // grasps[0].post_grasp_retreat.desired_distance = 0.115;
+
+
+    move_group.setPlannerId("RRTConnect");
 
 
 
-  closedGripper(grasps[0].grasp_posture);
 
-  move_group.setSupportSurfaceName("env_conveyor_to_visual_inspection");
+
+    geometry_msgs::Pose current_pose;
+
+    current_pose = move_group.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
+
+
+
+    geometry_msgs::Pose a_vertex = current_pose;
+
+    a_vertex.position.x = x_pos_obj+0.05;
+    a_vertex.position.y =  y_pos_obj-0.095;
+    a_vertex.position.z =  0.133226;
+
+    move_group.setPoseTarget(a_vertex);
+    move_group.move();
+
+    ros::WallDuration(3.0).sleep();
+
+
+  // openGripper(grasps[0].pre_grasp_posture);
+
+
+
+  // closedGripper(grasps[0].grasp_posture);
+
   // Call pick to pick up the object using the grasps given
-  move_group.pick("object", grasps);
+  // move_group.pick("object", grasps);
 }
 
 void place(moveit::planning_interface::MoveGroupInterface& group)
@@ -319,15 +338,15 @@ int main(int argc, char** argv)
   pick(group);
   ROS_INFO("After pick");
 
-    go_to_release_place(group);
+  go_to_release_place(group);
 
 
-  ros::WallDuration(1.0).sleep();
-  ROS_INFO("Placing...");
+  // ros::WallDuration(1.0).sleep();
+  // ROS_INFO("Placing...");
 
-  place(group);
+  // //place(group);
 
-  ROS_INFO("Shutting down the whole program...");
+  // ROS_INFO("Shutting down the whole program...");
 
 
   
