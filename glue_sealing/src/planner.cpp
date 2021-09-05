@@ -15,12 +15,17 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
+
+
+  ros::WallDuration(3.0).sleep(); 
+
   static const std::string PLANNING_GROUP_ARM = "arm";
   moveit::planning_interface::MoveGroupInterface move_group_arm(PLANNING_GROUP_ARM);
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
   const moveit::core::JointModelGroup* joint_model_group =
       move_group_arm.getCurrentState()->getJointModelGroup(PLANNING_GROUP_ARM);
   move_group_arm.setPlannerId("RRTConnect");
+  move_group_arm.setPlanningTime(5.0);
 
 
 
@@ -84,25 +89,24 @@ int main(int argc, char** argv)
   
 
   moveit_msgs::RobotTrajectory trajectory;
-  const double jump_threshold = 0.0;
+  const double jump_threshold = 0.01;
   const double eef_step = 0.01;
   
 
   current_pose = move_group_arm.getCurrentPose().pose;
 
-  tf2::Quaternion q;
+  float rot_x =  0.999731,rot_y= 0.0161223,rot_z=0.0166703,rot_w=0.000173034;
 
-  q.setRPY(M_PI,0,M_PI);
 
 
   geometry_msgs::Pose a_vertex = current_pose;
   a_vertex.position.x = 0.2;
   a_vertex.position.y = -0.4;
   a_vertex.position.z = 0.25;
-  a_vertex.orientation.x = q.x();
-  a_vertex.orientation.y = q.y();
-  a_vertex.orientation.z = q.z();
-  a_vertex.orientation.w = q.w();
+  a_vertex.orientation.x = rot_x;
+  a_vertex.orientation.y = rot_y;
+  a_vertex.orientation.z = rot_z;
+  a_vertex.orientation.w = rot_w;
 
 
 
@@ -110,30 +114,30 @@ int main(int argc, char** argv)
   b_vertex.position.x = 0.3;
   b_vertex.position.y = -0.4;
   b_vertex.position.z = 0.25;
-  b_vertex.orientation.x = q.x();
-  b_vertex.orientation.y = q.y();
-  b_vertex.orientation.z = q.z();
-  b_vertex.orientation.w = q.w();
+  b_vertex.orientation.x = rot_x;
+  b_vertex.orientation.y = rot_y;
+  b_vertex.orientation.z = rot_z;
+  b_vertex.orientation.w = rot_w;
 
 
   geometry_msgs::Pose c_vertex = current_pose;
   c_vertex.position.x = 0.3;
   c_vertex.position.y = -0.55;
   c_vertex.position.z = 0.25;
-  c_vertex.orientation.x = q.x();
-  c_vertex.orientation.y = q.y();
-  c_vertex.orientation.z = q.z();
-  c_vertex.orientation.w = q.w();
+  c_vertex.orientation.x = rot_x;
+  c_vertex.orientation.y = rot_y;
+  c_vertex.orientation.z = rot_z;
+  c_vertex.orientation.w = rot_w;
 
 
   geometry_msgs::Pose x_vertex = current_pose;
   x_vertex.position.x = 0.25;
   x_vertex.position.y = -0.45;
   x_vertex.position.z = 0.25;
-  x_vertex.orientation.x = q.x();
-  x_vertex.orientation.y = q.y();
-  x_vertex.orientation.z = q.z();
-  x_vertex.orientation.w = q.w();
+  x_vertex.orientation.x = rot_x;
+  x_vertex.orientation.y = rot_y;
+  x_vertex.orientation.z = rot_z;
+  x_vertex.orientation.w = rot_w;
 
 
 
@@ -141,10 +145,10 @@ int main(int argc, char** argv)
   d_vertex.position.x = 0.2;
   d_vertex.position.y = -0.55;
   d_vertex.position.z = 0.25;
-  d_vertex.orientation.x = q.x();
-  d_vertex.orientation.y = q.y();
-  d_vertex.orientation.z = q.z();
-  d_vertex.orientation.w = q.w();
+  d_vertex.orientation.x = rot_x;
+  d_vertex.orientation.y = rot_y;
+  d_vertex.orientation.z = rot_z;
+  d_vertex.orientation.w = rot_w;
 
 
   move_group_arm.setPoseTarget(a_vertex);
@@ -171,11 +175,6 @@ int main(int argc, char** argv)
   move_group_arm.setPoseTarget(d_vertex);
   move_group_arm.move();
 
-  ros::WallDuration(3.0).sleep();
-
-
-  move_group_arm.setPoseTarget(a_vertex);
-  move_group_arm.move();
 
 
   // waypoints.clear();
@@ -199,6 +198,10 @@ int main(int argc, char** argv)
   // move_group_arm.move();
   // std::cout << trajectory.joint_trajectory.points[0] << std::endl;
 
+
+  current_pose = move_group_arm.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
   
 
   ros::shutdown();

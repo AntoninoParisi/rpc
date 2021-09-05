@@ -167,7 +167,13 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
   // Setting grasp pose
   grasps[0].grasp_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation(-0.705224,-0.708933,-0.00825431,0.00211024);
+  tf2::Quaternion orientation;
+  auto tmp_or = move_group.getCurrentPose().pose.orientation;
+
+  orientation.setX(tmp_or.x);
+  orientation.setY(tmp_or.y);
+  orientation.setZ(tmp_or.z);
+  orientation.setW(tmp_or.w);
 
   grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
   grasps[0].grasp_pose.pose.position.x = x_pos_obj;

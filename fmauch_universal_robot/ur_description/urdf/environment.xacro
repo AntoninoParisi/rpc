@@ -143,7 +143,7 @@
   <joint name="${prefix}wall_2_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}wall_2"/>
-    <origin xyz="0.25 0.25 0"  rpy='0 0 0'/>
+    <origin xyz="0.25 0.35 0"  rpy='0 0 0'/>
   </joint>
 </xacro:macro>
       
