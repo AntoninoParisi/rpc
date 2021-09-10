@@ -25,7 +25,7 @@
 <h2 class="code-line" data-line-start=30 data-line-end=31 ><a id="Environment_30"></a>Environment</h2>
 <p class="has-line-data" data-line-start="31" data-line-end="34">The production line of the ICELab has been reconstructed in minimal details to avoid gap between the simulation and the real task. To use URSim it is necessary to have all the real parameters regarding the conveyors belt and the support of UR5e. Only in this way what happens in the simulator is exactly what will expect in reality. In following is shown respectively the prodcuction line plant and the geometric model:<br>
 <img src="image/modelloIceLab.png?raw=true" alt="Alt text" title="Production Line"><br> 
-<img src="https://www.artemedialab.it/wp-content/uploads/2019/04/immagini-sfondo-1-700x400.jpg?aw=true" alt="Alt text" title="Geometric Model"></p>
+<img src="image/photo5861574527685867334.jpg?raw=true" alt="Alt text" title="Geometric Model"></p>
 <h2 class="code-line" data-line-start=36 data-line-end=37 ><a id="Requirements_36"></a>Requirements</h2>
 <p class="has-line-data" data-line-start="38" data-line-end="39">This workspace requires a system setup with ROS. It is recommended to use:</p>
 <ul>
@@ -111,7 +111,7 @@ source $HOME/your_ros_ws/devel/setup.bash
 <ol start="3">
 <li class="has-line-data" data-line-start="125" data-line-end="128">
 <p class="has-line-data" data-line-start="125" data-line-end="126">Extract the calibration of the robot:</p>
-<p class="has-line-data" data-line-start="127" data-line-end="128"><code>roslaunch ur_calibration calibration_correction.launch robot_ip:=127.0.0.1 target_filename:=&quot;$(rospack find ur_calibration)/etc/ex-ur5e_calibration.yaml&quot;</code></p>
+<p class="has-line-data" data-line-start="127" data-line-end="128"><code>roslaunch ur_calibration calibration_correction.launch robot_ip:=YOUR_ROBOT_IP target_filename:=&quot;$(rospack find ur_calibration)/etc/ex-ur5e_calibration.yaml&quot;</code></p>
 </li>
 <li class="has-line-data" data-line-start="128" data-line-end="131">
 <p class="has-line-data" data-line-start="128" data-line-end="129">Run the ROS node that comunicates with the real robot</p>
