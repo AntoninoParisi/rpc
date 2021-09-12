@@ -2,41 +2,60 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <ur_msgs/SetIO.h>
 
 
 float x_pos_obj = 0.2075,y_pos_obj = -0.3575,z_pos_obj=0.05;
 float x_pos_final = -0.5,y_pos_final = 0 ,z_pos_final=0.06;
+ur_msgs::SetIO msgs_service;
 
-void openGripper(trajectory_msgs::JointTrajectory& posture)
+void openGripper()
 {
-  //  open_gripper
-  /* Add both finger joints of panda robot. */
-  posture.joint_names.resize(2);
-  posture.joint_names[0] = "gripper_top_to_finger1_joint";
-  posture.joint_names[1] = "gripper_top_to_finger2_joint";
+  // //  open_gripper
+  // /* Add both finger joints of panda robot. */
+  // posture.joint_names.resize(2);
+  // posture.joint_names[0] = "gripper_top_to_finger1_joint";
+  // posture.joint_names[1] = "gripper_top_to_finger2_joint";
 
-  /* Set them as open, wide enough for the object to fit. */
-  posture.points.resize(1);
-  posture.points[0].positions.resize(2);
-  posture.points[0].positions[0] = 0.00;
-  posture.points[0].positions[1] = 0.00;
-  posture.points[0].time_from_start = ros::Duration(0.5);
+  // /* Set them as open, wide enough for the object to fit. */
+  // posture.points.resize(1);
+  // posture.points[0].positions.resize(2);
+  // posture.points[0].positions[0] = 0.00;
+  // posture.points[0].positions[1] = 0.00;
+  // posture.points[0].time_from_start = ros::Duration(0.5);
+  ros::NodeHandle nh;
+  ros::ServiceClient io_client = nh.serviceClient<ur_msgs::SetIO>("/ur_hardware_interface/set_io");
+
+
+  msgs_service.request.fun = 1;
+  msgs_service.request.pin = 16;
+  msgs_service.request.state = 1;
+  io_client.call(msgs_service);
 }
 
-void closedGripper(trajectory_msgs::JointTrajectory& posture)
+void closedGripper()
 {
   // closed_gripper
   /* Add both finger joints of panda robot. */
-  posture.joint_names.resize(2);
-  posture.joint_names[0] = "gripper_top_to_finger1_joint";
-  posture.joint_names[1] = "gripper_top_to_finger2_joint";
+  // posture.joint_names.resize(2);
+  // posture.joint_names[0] = "gripper_top_to_finger1_joint";
+  // posture.joint_names[1] = "gripper_top_to_finger2_joint";
 
-  /* Set them as closed. */
-  posture.points.resize(1);
-  posture.points[0].positions.resize(2);
-  posture.points[0].positions[0] = 0.01;
-  posture.points[0].positions[1] = 0.01;
-  posture.points[0].time_from_start = ros::Duration(0.5);
+  // /* Set them as closed. */
+  // posture.points.resize(1);
+  // posture.points[0].positions.resize(2);
+  // posture.points[0].positions[0] = 0.01;
+  // posture.points[0].positions[1] = 0.01;
+  // posture.points[0].time_from_start = ros::Duration(0.5);
+
+
+  ros::NodeHandle nh;
+  ros::ServiceClient io_client = nh.serviceClient<ur_msgs::SetIO>("/ur_hardware_interface/set_io");
+
+  msgs_service.request.fun = 1;
+  msgs_service.request.pin = 16;
+  msgs_service.request.state = 0;
+  io_client.call(msgs_service);
 }
 
 
@@ -46,8 +65,6 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 
 
     group.setPlannerId("RRTConnect");
-
-
 
     geometry_msgs::Pose current_pose;
 
@@ -74,14 +91,15 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
 
 
 
+    ros::WallDuration(10.0).sleep();
 
 
-   
-     a_vertex.position.x = x_pos_obj+0.05;
-    a_vertex.position.y =  y_pos_obj-0.095;
-    a_vertex.position.z =  0.155057;
+   // posizione corretta pick
+     a_vertex.position.x = 0.259531;
+    a_vertex.position.y = -0.519722;
+    a_vertex.position.z =  0.246657;
     a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y =-0.708933;
+    a_vertex.orientation.y = -0.708933;
     a_vertex.orientation.z = -0.00825431;
     a_vertex.orientation.w = 0.00211024;
 
@@ -89,7 +107,7 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
     group.setPoseTarget(a_vertex);
     group.move();
 
-    ros::WallDuration(3.0).sleep();
+    ros::WallDuration(10.0).sleep();
 
 
 
@@ -105,6 +123,9 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
     group.setPlannerId("RRTConnect");
 
 
+    tf2::Quaternion q;
+
+    q.setRPY(M_PI,0,M_PI);
 
     geometry_msgs::Pose current_pose;
 
@@ -120,7 +141,7 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
     a_vertex.position.y =  -0.473848;
     a_vertex.position.z =  0.247984;
     a_vertex.orientation.x =  0.699999;
-    a_vertex.orientation.y =-0.71396;
+    a_vertex.orientation.y = -0.71396;
     a_vertex.orientation.z =  0.0161121;
     a_vertex.orientation.w = 0.00200029;
 
@@ -129,22 +150,23 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
     group.move();
 
 
+      ros::WallDuration(10.0).sleep();
 
 
 
-    a_vertex.position.x = x_pos_final;
-    a_vertex.position.y = y_pos_final;
-    a_vertex.position.z =  0.153226;
+    a_vertex.position.x =  -0.365426;
+    a_vertex.position.y =  -0.109913;
+    a_vertex.position.z =  0.203226;
     a_vertex.orientation.x =  0.676498;
-    a_vertex.orientation.y =0.736243;
+    a_vertex.orientation.y = 0.736243;
     a_vertex.orientation.z = -0.00119716;
-    a_vertex.orientation.w =0.0171676;
+    a_vertex.orientation.w = 0.0171676;
 
 
     group.setPoseTarget(a_vertex);
     group.move();
 
-    ros::WallDuration(3.0).sleep();
+    ros::WallDuration(10.0).sleep();
 
 
 
@@ -153,123 +175,128 @@ void closedGripper(trajectory_msgs::JointTrajectory& posture)
   }
 
 
-void pick(moveit::planning_interface::MoveGroupInterface& move_group)
+void pick(moveit::planning_interface::MoveGroupInterface& group)
 {
-  // pick1
-  // std::vector<moveit_msgs::Grasp> grasps;
-  // grasps.resize(1);
-
-  // // Setting grasp pose
-  // grasps[0].grasp_pose.header.frame_id = "robot_base_link";
-  // tf2::Quaternion orientation;
-  // auto tmp_or = move_group.getCurrentPose().pose.orientation;
-
-  // orientation.setX(tmp_or.x);
-  // orientation.setY(tmp_or.y);
-  // orientation.setZ(tmp_or.z);
-  // orientation.setW(tmp_or.w);
-
-  // grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
-  // grasps[0].grasp_pose.pose.position.x = x_pos_obj;
-  // grasps[0].grasp_pose.pose.position.y = y_pos_obj;
-  // grasps[0].grasp_pose.pose.position.z = z_pos_obj+0.095;
-
-
-  // /* Defined with respect to frame_id */
-  // grasps[0].pre_grasp_approach.direction.header.frame_id = "robot_base_link";
-  // /* Direction is set as negative x axis */
-  // grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
-  // grasps[0].pre_grasp_approach.min_distance = 0.095;
-  // grasps[0].pre_grasp_approach.desired_distance = 0.115;
-
-
-  // /* Defined with respect to frame_id */
-  // grasps[0].post_grasp_retreat.direction.header.frame_id = "robot_base_link";
-  // /* Direction is set as positive z axis */
-  // grasps[0].post_grasp_retreat.direction.vector.z = 1.0;
-  // grasps[0].post_grasp_retreat.min_distance = 0.095;
-  // grasps[0].post_grasp_retreat.desired_distance = 0.115;
-
-
-    move_group.setPlannerId("RRTConnect");
-
-
-
-
+  group.setPlannerId("RRTConnect");
 
     geometry_msgs::Pose current_pose;
 
-    current_pose = move_group.getCurrentPose().pose;
+    current_pose = group.getCurrentPose().pose;
 
     std::cout << current_pose << std::endl;
+
+
+    // opening gripper
+
+    openGripper();
+
+    ros::WallDuration(2.0).sleep();
 
 
 
     geometry_msgs::Pose a_vertex = current_pose;
 
-    a_vertex.position.x = x_pos_obj+0.05;
-    a_vertex.position.y =  y_pos_obj-0.095;
-    a_vertex.position.z =  0.133226;
-
-    move_group.setPoseTarget(a_vertex);
-    move_group.move();
-
-    ros::WallDuration(3.0).sleep();
-
-
-  // openGripper(grasps[0].pre_grasp_posture);
+    a_vertex.position.x = 0.259531;
+    a_vertex.position.y = -0.519722;
+    a_vertex.position.z =  0.186657;
+    a_vertex.orientation.x =   -0.705224;
+    a_vertex.orientation.y = -0.708933;
+    a_vertex.orientation.z = -0.00825431;
+    a_vertex.orientation.w = 0.00211024;
 
 
+    group.setPoseTarget(a_vertex);
+    group.move();
 
-  // closedGripper(grasps[0].grasp_posture);
+    ros::WallDuration(10.0).sleep();
 
-  // Call pick to pick up the object using the grasps given
-  // move_group.pick("object", grasps);
+  
+
+    closedGripper();
+    ros::WallDuration(2.0).sleep();
+
+   a_vertex.position.x = 0.259531;
+    a_vertex.position.y = -0.519722;
+    a_vertex.position.z =  0.246657;
+    a_vertex.orientation.x =   -0.705224;
+    a_vertex.orientation.y = -0.708933;
+    a_vertex.orientation.z = -0.00825431;
+    a_vertex.orientation.w = 0.00211024;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+    ros::WallDuration(10.0).sleep();
+
+}
+
+
+void test(moveit::planning_interface::MoveGroupInterface& group){
+    geometry_msgs::Pose current_pose;
+
+    current_pose = group.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
+
+
 }
 
 void place(moveit::planning_interface::MoveGroupInterface& group)
 {
- 
-  // Create a vector of placings to be attempted, currently only creating single place location.
-  std::vector<moveit_msgs::PlaceLocation> place_location;
-  place_location.resize(1);
+  group.setPlannerId("RRTConnect");
 
- 
-  place_location[0].place_pose.header.frame_id = "robot_base_link";
-  tf2::Quaternion orientation(0.676498,0.736243,-0.00119716,0.0171676);
+    geometry_msgs::Pose current_pose;
+
+    current_pose = group.getCurrentPose().pose;
+
+    std::cout << current_pose << std::endl;
 
 
+    
+
+
+
+    geometry_msgs::Pose a_vertex = current_pose;
+
+    a_vertex.position.x =  -0.365426;
+    a_vertex.position.y =  -0.109913;
+    a_vertex.position.z =  0.193226;
+    a_vertex.orientation.x =  0.676498;
+    a_vertex.orientation.y = 0.736243;
+    a_vertex.orientation.z = -0.00119716;
+    a_vertex.orientation.w = 0.0171676;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+    ros::WallDuration(10.0).sleep();
+    
+    // opening gripper
+
+    openGripper();
+
+    ros::WallDuration(2.0).sleep();
 
   
-  place_location[0].place_pose.pose.orientation = tf2::toMsg(orientation);
 
-  /* While placing it is the exact location of the center of the object. */
-  place_location[0].place_pose.pose.position.x = x_pos_final;
-  place_location[0].place_pose.pose.position.y = y_pos_final;
-  place_location[0].place_pose.pose.position.z = z_pos_final+0.095;
+    closedGripper();
+    ros::WallDuration(2.0).sleep();
 
-  
-  /* Defined with respect to frame_id */
-  place_location[0].pre_place_approach.direction.header.frame_id = "robot_base_link";
-  /* Direction is set as negative z axis */
-  place_location[0].pre_place_approach.direction.vector.z = -1.0;
-  place_location[0].pre_place_approach.min_distance = 0.095;
-  place_location[0].pre_place_approach.desired_distance = 0.115;
+   a_vertex.position.x =  -0.365426;
+    a_vertex.position.y =  -0.109913;
+    a_vertex.position.z =  0.253226;
+    a_vertex.orientation.x =  0.676498;
+    a_vertex.orientation.y = 0.736243;
+    a_vertex.orientation.z = -0.00119716;
+    a_vertex.orientation.w = 0.0171676;
 
 
-  /* Defined with respect to frame_id */
-  place_location[0].post_place_retreat.direction.header.frame_id = "robot_base_link";
-  /* Direction is set as negative y axis */
-  place_location[0].post_place_retreat.direction.vector.y = -1.0;
-  place_location[0].post_place_retreat.min_distance = 0.095;
-  place_location[0].post_place_retreat.desired_distance = 0.115;
+    group.setPoseTarget(a_vertex);
+    group.move();
 
-
-  openGripper(place_location[0].post_place_posture);
-
-  group.setSupportSurfaceName("env_conveyor_base");
-  // Call place to place the object using the place locations given.
-  group.place("object", place_location);
+    ros::WallDuration(10.0).sleep();
 }
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
@@ -316,37 +343,40 @@ int main(int argc, char** argv)
   group.setPlannerId("RRTConnect");
 
   std::cout << "stato : " << group.getPlannerId();
-  addCollisionObjects(planning_scene_interface);
 
-  // go to position A near the end of the small conveyor belt
+  //test();
+  // addCollisionObjects(planning_scene_interface);
+
+  // // go to position A near the end of the small conveyor belt
   
 
 
 
 
-  ROS_INFO("Before pick");
+  // ROS_INFO("Before pick");
 
   go_to_pick_place(group);
 
 
-  ROS_INFO_NAMED("GlueSealing", "Available Planning Groups:");
-  std::copy(group.getJointModelGroupNames().begin(),
-            group.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
-  // Wait a bit for ROS things to initialize
-  ros::WallDuration(1.0).sleep();
-  ROS_INFO("Picking...");
+  // ROS_INFO_NAMED("GlueSealing", "Available Planning Groups:");
+  // std::copy(group.getJointModelGroupNames().begin(),
+  //           group.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
+  // // Wait a bit for ROS things to initialize
+  // ros::WallDuration(1.0).sleep();
+  // ROS_INFO("Picking...");
   pick(group);
-  ROS_INFO("After pick");
+  // ROS_INFO("After pick");
 
   go_to_release_place(group);
+  //test(group);
 
 
   // ros::WallDuration(1.0).sleep();
   // ROS_INFO("Placing...");
 
-  // //place(group);
+  place(group);
 
-  // ROS_INFO("Shutting down the whole program...");
+  ROS_INFO("Shutting down the whole program...");
 
 
   
