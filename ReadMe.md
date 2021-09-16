@@ -6,7 +6,7 @@
 <li class="has-line-data" data-line-start="7" data-line-end="8">Object Pick and place</li>
 <li class="has-line-data" data-line-start="8" data-line-end="9">Glue sealing (following a cartesian path with trajectory constraints in orientation and speed)</li>
 <li class="has-line-data" data-line-start="9" data-line-end="10">Quality inspection(pick an object and show it with two different angles to a camera)</li>
-<li class="has-line-data" data-line-start="10" data-line-end="12">Comunication with the simulator(<a href="https://www.universal-robots.com/download/?query=">URsim</a> and the real robot</li>
+<li class="has-line-data" data-line-start="10" data-line-end="12">Communication with the simulator(<a href="https://www.universal-robots.com/download/?query=">URsim</a>) and the real robot</li>
 </ul>
 <h2 class="code-line" data-line-start=12 data-line-end=13 ><a id="Features_12"></a>Features</h2>
 <p class="has-line-data" data-line-start="14" data-line-end="15">In following the most important features of the proposed work:</p>
@@ -89,9 +89,9 @@ source $HOME/your_ros_ws/devel/setup.bash
 <li class="has-line-data" data-line-start="100" data-line-end="102">Pick and Place:<br>
 <code>rosrun pick_place pick_place_node</code></li>
 <li class="has-line-data" data-line-start="102" data-line-end="104">Glue Sealing:<br>
-<code>rosrun planner_rpc planner_rpc_node</code></li>
+<code>rosrun glue_sealing glue_sealing_node</code></li>
 <li class="has-line-data" data-line-start="104" data-line-end="107">Visual Inspection:<br>
-<code>rosrun pick_place pick_place_node</code></li>
+<code>rosrun visual_inspection visual_inspection_node</code></li>
 </ul>
 <h2 class="code-line" data-line-start=107 data-line-end=108 ><a id="Usage_with_the_real_Robot_107"></a>Usage with the real Robot</h2>
 <p class="has-line-data" data-line-start="109" data-line-end="110">To run the project using the real robot, first of all you have to switch on the robot from the teach pendant and you have to connect to the computer robot. Then you are ready to launch some commands, all of these have to be launch from different terminals and before run the command you have to activate your workspace with:</p>
@@ -129,7 +129,7 @@ source $HOME/your_ros_ws/devel/setup.bash
 <li class="has-line-data" data-line-start="136" data-line-end="138">Pick and Place:<br>
 <code>rosrun pick_place pick_place_node</code></li>
 <li class="has-line-data" data-line-start="138" data-line-end="140">Glue Sealing:<br>
-<code>rosrun planner_rpc planner_rpc_node</code></li>
+<code>rosrun glue_sealing glue_sealing_node</code></li>
 <li class="has-line-data" data-line-start="140" data-line-end="142">Visual Inspection:<br>
-<code>rosrun pick_place pick_place_node</code></li>
+<code>rosrun visual_inspection visual_inspection_node</code></li>
 </ul>
