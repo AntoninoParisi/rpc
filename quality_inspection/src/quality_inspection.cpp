@@ -102,13 +102,17 @@ void go_to_pick_place(moveit::planning_interface::MoveGroupInterface &group){
 
 
    // posizione corretta pick
+
+
+
+
      a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.246657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
 
 
     group.setPoseTarget(a_vertex);
@@ -146,29 +150,48 @@ void pick(moveit::planning_interface::MoveGroupInterface& group)
     a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.186657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
+
 
 
     group.setPoseTarget(a_vertex);
     group.move();
 
-    ros::WallDuration(10.0).sleep();
+    ros::WallDuration(15.0).sleep();
 
   
 
     closedGripper();
     ros::WallDuration(2.0).sleep();
 
-   a_vertex.position.x = 0.259531;
+    a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
-    a_vertex.position.z =  0.246657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.position.z =  0.456657;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
+    ros::WallDuration(15.0).sleep();
+
+
+
+
+   a_vertex.position.x = 0.43584;
+    a_vertex.position.y = -0.403338;
+    a_vertex.position.z =  0.456657;
+    a_vertex.orientation.x =   -0.474012;
+    a_vertex.orientation.y = 0.488228;
+    a_vertex.orientation.z = -0.525104;
+    a_vertex.orientation.w = 0.511089;
+
 
 
     group.setPoseTarget(a_vertex);
@@ -197,10 +220,10 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
     a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.246657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
 
 
     group.setPoseTarget(a_vertex);
@@ -216,10 +239,10 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
    a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.18667;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
 
 
     group.setPoseTarget(a_vertex);
@@ -233,6 +256,19 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
     openGripper();
 
     ros::WallDuration(2.0).sleep();
+
+    a_vertex.position.x = 0.259531;
+    a_vertex.position.y = -0.519722;
+    a_vertex.position.z =  0.246657;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
+
+
+    group.setPoseTarget(a_vertex);
+    group.move();
+
  }
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
@@ -272,10 +308,6 @@ void inspection(moveit::planning_interface::MoveGroupInterface &group){
     group.setPlannerId("RRTConnect");
 
 
-    tf2::Quaternion q;
-
-    q.setRPY(M_PI,0,M_PI);
-
     geometry_msgs::Pose current_pose;
 
     current_pose = group.getCurrentPose().pose;
@@ -284,15 +316,16 @@ void inspection(moveit::planning_interface::MoveGroupInterface &group){
 
 
 
-    
+        ros::WallDuration(10).sleep();
+
 
     //rotation of wrist 1 & 2 
 
     geometry_msgs::Pose a_vertex = current_pose;
 
-    a_vertex.position.x = 0.259531;
-    a_vertex.position.y = -0.519722;
-    a_vertex.position.z =  0.246657;
+   a_vertex.position.x = 0.43584;
+    a_vertex.position.y = -0.403338;
+    a_vertex.position.z =  0.456657;
     a_vertex.orientation.x =  0.486816;
     a_vertex.orientation.y =0.510752;
     a_vertex.orientation.z =  0.50263;
@@ -302,21 +335,18 @@ void inspection(moveit::planning_interface::MoveGroupInterface &group){
     group.setPoseTarget(a_vertex);
     group.move();
 
-
+    ros::WallDuration(10).sleep();
 
 
     // rotation of wrist 3 in position B
 
-
-
-
-    a_vertex.position.x = 0.259531;
-    a_vertex.position.y = -0.519722;
-    a_vertex.position.z =  0.246657;
-    a_vertex.orientation.x =  -0.522272;
-    a_vertex.orientation.y = 0.473829;
-    a_vertex.orientation.z =  -0.511977;
-    a_vertex.orientation.w = 0.490508;
+   a_vertex.position.x = 0.43584;
+    a_vertex.position.y = -0.403338;
+    a_vertex.position.z =  0.456657;
+    a_vertex.orientation.x =  0.569908;
+    a_vertex.orientation.y =  0.354602;
+    a_vertex.orientation.z =  0.588854;
+    a_vertex.orientation.w = 0.450236;
 
 
     group.setPoseTarget(a_vertex);

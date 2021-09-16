@@ -95,13 +95,17 @@ void closedGripper()
 
 
    // posizione corretta pick
+
+
+
+
      a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.246657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
 
 
     group.setPoseTarget(a_vertex);
@@ -156,7 +160,7 @@ void closedGripper()
 
     a_vertex.position.x =  -0.365426;
     a_vertex.position.y =  -0.109913;
-    a_vertex.position.z =  0.203226;
+    a_vertex.position.z =  0.213226;
     a_vertex.orientation.x =  0.676498;
     a_vertex.orientation.y = 0.736243;
     a_vertex.orientation.z = -0.00119716;
@@ -199,29 +203,33 @@ void pick(moveit::planning_interface::MoveGroupInterface& group)
     a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.186657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
+
 
 
     group.setPoseTarget(a_vertex);
     group.move();
 
-    ros::WallDuration(10.0).sleep();
+    ros::WallDuration(15.0).sleep();
 
   
 
     closedGripper();
     ros::WallDuration(2.0).sleep();
 
+
+
    a_vertex.position.x = 0.259531;
     a_vertex.position.y = -0.519722;
     a_vertex.position.z =  0.246657;
-    a_vertex.orientation.x =   -0.705224;
-    a_vertex.orientation.y = -0.708933;
-    a_vertex.orientation.z = -0.00825431;
-    a_vertex.orientation.w = 0.00211024;
+    a_vertex.orientation.x =   -0.631623;
+    a_vertex.orientation.y = 0.775073;
+    a_vertex.orientation.z = 0.000808095;
+    a_vertex.orientation.w = 0.0176862;
+
 
 
     group.setPoseTarget(a_vertex);
@@ -281,8 +289,6 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
 
   
 
-    closedGripper();
-    ros::WallDuration(2.0).sleep();
 
    a_vertex.position.x =  -0.365426;
     a_vertex.position.y =  -0.109913;
@@ -297,6 +303,10 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
     group.move();
 
     ros::WallDuration(10.0).sleep();
+
+
+    closedGripper();
+    ros::WallDuration(2.0).sleep();
 }
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
@@ -355,28 +365,28 @@ int main(int argc, char** argv)
 
   // ROS_INFO("Before pick");
 
-  go_to_pick_place(group);
+  // go_to_pick_place(group);
 
-
+  test(group);
   // ROS_INFO_NAMED("GlueSealing", "Available Planning Groups:");
   // std::copy(group.getJointModelGroupNames().begin(),
   //           group.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
   // // Wait a bit for ROS things to initialize
   // ros::WallDuration(1.0).sleep();
   // ROS_INFO("Picking...");
-  pick(group);
+  // pick(group);
   // ROS_INFO("After pick");
 
-  go_to_release_place(group);
-  //test(group);
+  // go_to_release_place(group);
+  // //test(group);
 
 
   // ros::WallDuration(1.0).sleep();
   // ROS_INFO("Placing...");
 
-  place(group);
+  // place(group);
 
-  ROS_INFO("Shutting down the whole program...");
+  // ROS_INFO("Shutting down the whole program...");
 
 
   

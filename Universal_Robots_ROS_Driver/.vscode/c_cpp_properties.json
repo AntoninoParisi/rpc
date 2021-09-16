@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/ice-admin/Documents/ws_rpc_pf/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/ice-admin/Documents/ws_rpc_pf/src/Universal_Robots_ROS_Driver/controller_stopper/include/**",
+        "/home/ice-admin/Documents/ws_rpc_pf/src/Universal_Robots_ROS_Driver/ur_calibration/include/**",
+        "/home/ice-admin/Documents/ws_rpc_pf/src/Universal_Robots_ROS_Driver/ur_controllers/include/**",
+        "/home/ice-admin/Documents/ws_rpc_pf/src/fmauch_universal_robot/ur_kinematics/include/**",
+        "/home/ice-admin/Documents/ws_rpc_pf/src/Universal_Robots_ROS_Driver/ur_robot_driver/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}
