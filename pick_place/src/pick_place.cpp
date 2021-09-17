@@ -363,30 +363,30 @@ int main(int argc, char** argv)
 
 
 
-  // ROS_INFO("Before pick");
+  ROS_INFO("Before pick");
 
-  // go_to_pick_place(group);
+  go_to_pick_place(group);
 
-  test(group);
-  // ROS_INFO_NAMED("GlueSealing", "Available Planning Groups:");
-  // std::copy(group.getJointModelGroupNames().begin(),
-  //           group.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
-  // // Wait a bit for ROS things to initialize
-  // ros::WallDuration(1.0).sleep();
-  // ROS_INFO("Picking...");
-  // pick(group);
-  // ROS_INFO("After pick");
+  // test(group);
+  ROS_INFO_NAMED("GlueSealing", "Available Planning Groups:");
+  std::copy(group.getJointModelGroupNames().begin(),
+            group.getJointModelGroupNames().end(), std::ostream_iterator<std::string>(std::cout, ", "));
+  // Wait a bit for ROS things to initialize
+  ros::WallDuration(1.0).sleep();
+  ROS_INFO("Picking...");
+  pick(group);
+  ROS_INFO("After pick");
 
-  // go_to_release_place(group);
-  // //test(group);
+  go_to_release_place(group);
+  //test(group);
 
 
-  // ros::WallDuration(1.0).sleep();
-  // ROS_INFO("Placing...");
+  ros::WallDuration(1.0).sleep();
+  ROS_INFO("Placing...");
 
-  // place(group);
+  place(group);
 
-  // ROS_INFO("Shutting down the whole program...");
+  ROS_INFO("Shutting down the whole program...");
 
 
   

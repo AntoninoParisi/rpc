@@ -116,12 +116,12 @@
   <joint name="${prefix}conveyor_base_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_base"/>
-    <origin xyz="-0.45 0 0" rpy='0 0 -1.57'/>
+    <origin xyz="-0.45 0 0.05" rpy='0 0 -1.57'/>
   </joint>
   <joint name="${prefix}conveyor_to_visual_inspection_joint" type="fixed">
     <parent link="${prefix}table_base"/>
     <child link="${prefix}conveyor_to_visual_inspection"/>
-     <origin xyz="0.25 -0.45 0"  rpy='0 0 0'/>
+     <origin xyz="0.25 -0.45 0.05"  rpy='0 0 0'/>
   </joint>
 
   <joint name="${prefix}visual_slab_joint" type="fixed">
